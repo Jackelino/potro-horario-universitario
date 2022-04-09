@@ -1,0 +1,19 @@
+{
+  "name": "potro-horario-universitario",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.2.25",
+    "vue-select": "^4.0.0-beta.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.0",
+    "sass": "^1.49.11",
+    "vite": "^2.9.0"
+  }
+}
