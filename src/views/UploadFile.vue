@@ -1,9 +1,10 @@
 <template>
-  <router-view/>
+    hola soy el que carga
 </template>
+
 <script>
 export default {
-  name: 'App',
+
 }
 </script>
 
