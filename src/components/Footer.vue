@@ -1,7 +1,7 @@
 <template>
     <footer class="footer">
         <div class="container-fluid">
-            <div class="row p-2">
+            <div class="row p-3">
                 <div class="text-center">
                     <small class="text-muted">
                         © {{ date }} - All Rights Reserved.

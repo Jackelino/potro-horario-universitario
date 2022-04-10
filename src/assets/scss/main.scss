@@ -157,3 +157,19 @@ html::-webkit-scrollbar-track {
 .subjects::-webkit-scrollbar-track {
     border-radius: 10px;  
 }
+
+/*** upload file ***/
+.upload-file{
+    min-height: 90vh;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dropzone{
+    max-width: 500px;
+    height: 200px;
+    border: 2px dashed #487552;
+    background-color: #F8F9FA;
+    transition: 0.3s ease all;
+}

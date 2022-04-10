@@ -2,7 +2,17 @@
     <aside class="sidebar bg-light">
         <div class="container">
             <div class="container">
-                <h6>Materias</h6>
+                <h6>Materias</h6>  <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
+
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                    <div class="offcanvas-header">
+                        <h5 id="offcanvasRightLabel">Cargar archivos</h5>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        ...
+                    </div>
+                    </div>
                 <div class="row">
                     <label for="inputEmail3" class="col-form-label">Anclar materia(s):</label>
                     <div class="">
