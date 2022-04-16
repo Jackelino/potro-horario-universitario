@@ -74,10 +74,19 @@ html::-webkit-scrollbar-track {
     }
 }
 
+/** sidebar ***/
+.sidebar{
+    min-height: 100vh;
+}
+
+/*** main ***/
+.main{
+    min-height: 100vh;
+}
 /*** table ***/
 .schedule{
     width: auto;
-    max-height: calc(90vh/2 + 110px);
+    max-height: calc(100vh/2 + 110px);
     overflow-y: scroll;
 }
 .cell{
@@ -127,7 +136,7 @@ html::-webkit-scrollbar-track {
 /*** subjects ***/
 .subjects{
     width: auto;
-    max-height: calc(90vh/3 + 100px);
+    max-height: calc(100vh/2 + 25px);
     overflow-y: scroll;
 
 }
@@ -160,7 +169,7 @@ html::-webkit-scrollbar-track {
 
 /*** upload file ***/
 .upload-file{
-    min-height: 90vh;
+    min-height: 100vh;
     text-align: center;
     display: flex;
     align-items: center;

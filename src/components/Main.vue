@@ -1,7 +1,7 @@
 <template>
     <main class="main">
         <section>
-            <div class="container-main p-0 m-2 rounded">
+            <div class="container-fluid pt-3 rounded">
                 <div class="container bg-light mb-3">
                     <div class="row p-3">
                         info
