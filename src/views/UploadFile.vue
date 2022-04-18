@@ -22,6 +22,7 @@
                         </div> 
                     </div> 
                     <div class="row p-4">
+                      dsd
                         <div v-html="listFile">
 
                         </div>
@@ -62,9 +63,9 @@ export default {
         loadFiles(event){
             this.files = event.target.files;
             for(let i = 0; i< this.files.length ; i++){
-                if( this.files[i].type=='application/pdf'){ //pdf
+                if( this.files[i].type==='application/pdf'){ //pdf
                     this.f = this.f+'<li class="nav-item"> <i class="fa-solid fa-file-pdf"></i> '+this.files[i].name+'</li>'
-                }else if(this.files[i].type=='text/csv'){ // csv
+                }else if(this.files[i].type==='text/csv'){ // csv
                     this.f = this.f+'<li class="nav-item"> <i class="fa-solid fa-file-csv"></i> '+this.files[i].name+'</li>'
                 }else{ // excel
                     this.f = this.f+'<li class="nav-item"> <i class="fa-solid fa-file-excel"></i> '+this.files[i].name+'</li>'
