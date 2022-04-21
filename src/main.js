@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import vSelect from 'vue-select'
-import './plugins/bootstrap/bootstrap.bundle';
+import './plugins/bootstrap/bootstrap.bundle.min';
 
 import './assets/scss/main.scss';
 import 'vue-select/dist/vue-select.css';
