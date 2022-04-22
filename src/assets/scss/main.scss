@@ -8,7 +8,7 @@
 *{
     padding: 0;
     margin: 0;
-    
+
 }
 
 /* style scrollbar*/
@@ -23,7 +23,7 @@ html::-webkit-scrollbar:vertical {
 
 html::-webkit-scrollbar-button:increment,html::-webkit-scrollbar-button {
     display: none;
-} 
+}
 
 html::-webkit-scrollbar:horizontal {
     height: 10px;
@@ -36,7 +36,7 @@ html::-webkit-scrollbar-thumb {
 }
 
 html::-webkit-scrollbar-track {
-    border-radius: 10px;  
+    border-radius: 10px;
 }
 
 /*** Layout ***/
@@ -117,7 +117,7 @@ html::-webkit-scrollbar-track {
 
 .schedule::-webkit-scrollbar-button:increment,.schedule::-webkit-scrollbar-button {
     display: none;
-} 
+}
 
 .schedule::-webkit-scrollbar:horizontal {
     height: 10px;
@@ -130,13 +130,13 @@ html::-webkit-scrollbar-track {
 }
 
 .schedule::-webkit-scrollbar-track {
-    border-radius: 10px;  
+    border-radius: 10px;
 }
 
 /*** subjects ***/
 .subjects{
-    width: auto;
-    max-height: calc(100vh/2 + 25px);
+    width: content-box;
+    max-height: calc(100vh/3 + 25px);
     overflow-y: scroll;
 
 }
@@ -151,7 +151,7 @@ html::-webkit-scrollbar-track {
 
 .subjects::-webkit-scrollbar-button:increment,.subjects::-webkit-scrollbar-button {
     display: none;
-} 
+}
 
 .subjects::-webkit-scrollbar:horizontal {
     height: 10px;
@@ -164,7 +164,7 @@ html::-webkit-scrollbar-track {
 }
 
 .subjects::-webkit-scrollbar-track {
-    border-radius: 10px;  
+    border-radius: 10px;
 }
 
 /*** upload file ***/
