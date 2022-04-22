@@ -1,19 +1,23 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
   <div class="container bg-light">
     <div class="row p-3">
-      encabezado
+      <div class="text-center">
+        <h6 class="m-0">Horario 1</h6>
+      </div>
     </div>
-    <div class="row p-3 schedule" >
-      <table class="table table-responsive">
-        <thead class="position-absolute">
+    <div class="row pe-3 ps-3 pb-0 pt-0 ">
+      <table class="table table-responsive m-0">
+        <thead >
         <tr>
           <th scope="col" class="bg-success cell ">Hora/Día</th>
           <th v-for="day in days" :key="day" scope="col" class="bg-success text-white cell">{{ day }}</th>
         </tr>
         </thead>
-        <tbody class="position-static">
-        <tr><th scope="row" class="bg-success text-white cell"></th></tr>
-        <tr><th scope="row" class="bg-success text-white cell"></th></tr>
+      </table>
+    </div>
+    <div class="row pe-3 ps-3 pb-3 pt-0 schedule" >
+      <table class="table table-responsive m-0">
+        <tbody >
         <tr v-for="hour in hours" :key="hour">
           <th scope="row" class="bg-success text-white cell">{{ hour }}</th>
           <td v-for="n in 7" class="empty-cell">Libre</td>

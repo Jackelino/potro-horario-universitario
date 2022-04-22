@@ -1,6 +1,7 @@
 <template>
     <Load :loading="isLoading" />
     <div v-if="!isLoading" >
+        <BarTop/>
         <Header/>
         <main class="upload-file">
             <section>
@@ -16,11 +17,11 @@
                                     <label for="file" class="btn btn-success"><i class="fa-solid fa-file-arrow-up"></i> Seleccione archivos</label>
                                     <input type="file" class="d-none" v-on:change="loadFiles" id="file"  multiple accept=".csv, .pdf, .xlsx">
                                 </div>
-                                
-                            </div> 
-                            
-                        </div> 
-                    </div> 
+
+                            </div>
+
+                        </div>
+                    </div>
                     <div class="row p-4">
                       dsd
                         <div v-html="listFile">
@@ -29,7 +30,7 @@
                     </div>
                     <div class="row p-4">
                         <router-link to="/dashboard" class="btn btn-primary text-white">Continuar <i class="fa-solid fa-arrow-right-long"></i></router-link>
-                    </div>      
+                    </div>
                 </div>
             </section>
         </main>
@@ -41,9 +42,11 @@
 import Load from "../components/Load.vue"
 import Header from "../components/Header.vue"
 import Footer from "../components/Footer.vue"
+import BarTop from "../components/BarTop.vue";
 export default {
     name: 'UploadFile',
     components: {
+        BarTop,
         Load,
         Header,
         Footer,

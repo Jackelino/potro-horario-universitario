@@ -10,7 +10,9 @@
     margin: 0;
 
 }
-
+body{
+    font-family: 'calibri', monospace;
+}
 /* style scrollbar*/
 
 html::-webkit-scrollbar {
@@ -45,10 +47,14 @@ html::-webkit-scrollbar-track {
     display: grid;
     grid-auto-columns: 400px auto;
     grid-template-areas:
-        "header header "
+        "barTop barTop"
+        "header header"
         "sidebar main"
         "sidebar footer"
     ;
+}
+.grid-container .bar-top {
+    grid-area: barTop;
 }
 .grid-container .header {
     grid-area: header;
@@ -66,6 +72,7 @@ html::-webkit-scrollbar-track {
 @media (max-width: 768px){
     .grid-container{
         grid-template-areas:
+        "barTop barTop"
         "header header"
         "sidebar sidebar"
         "main main"
@@ -73,7 +80,12 @@ html::-webkit-scrollbar-track {
     ;
     }
 }
-
+/** bar top **/
+.bar-top{
+    background-image: url("./src/assets/image/pleca-top.jpg");
+    height: 30px;
+    max-height: 30px;
+}
 /** sidebar ***/
 .sidebar{
     min-height: 100vh;
@@ -82,6 +94,13 @@ html::-webkit-scrollbar-track {
 /*** main ***/
 .main{
     min-height: 100vh;
+}
+.footer{
+    background-image: url("./src/assets/image/pleca-bottom.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: scroll;
+    background-color: #333333;
 }
 /*** table ***/
 .schedule{

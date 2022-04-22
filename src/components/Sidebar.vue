@@ -4,9 +4,11 @@
       <div class="container">
         <div class="row">
           <div class="pt-3">
-            <button class="btn btn-primary btn-sm text-white" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Administrar platilla...
-            </button>
+            <div class="text-end">
+              <button class="btn btn-primary btn-sm text-white" type="button" data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Administrar platilla...
+              </button>
+            </div>
           </div>
         </div>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
@@ -41,9 +43,12 @@
             </v-select>
           </div>
           <div class="col-form-label">
-            <button type="button" class="btn btn-primary text-white"><i class="fa-solid fa-code-compare"></i> Generar
-              combinaciones
-            </button>
+            <div class="text-center">
+              <button type="button" class="btn btn-primary text-white"><i class="fa-solid fa-code-compare"></i> Generar
+                combinaciones
+              </button>
+            </div>
+
           </div>
         </div>
       </div>
@@ -51,36 +56,40 @@
       <div class="container">
         <div class="row">
           <button class="btn btn-light" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#collapseExample"
-                  aria-expanded="true" aria-controls="collapseExample">
+                  data-bs-target="#collapseSubjectAnchor"
+                  aria-expanded="true" aria-controls="collapseSubjectAnchor" v-on:click="changeArrowAnchor">
+
             <div class="hstack gap-3">
-              <div class="">Materias libres</div>
-              <div class="ms-auto"><i class="fa-solid fa-caret-down"></i></div>
+              <div class="">Materias Ancladas</div>
+              <div class="ms-auto"><i class="fa-solid fa-caret-up" v-if="flagArrowAnchor"></i><i
+                  class="fa-solid fa-caret-down" v-else></i></div>
             </div>
           </button>
           <div class="subjects mt-2 mb-2 pe-0 ps-0">
-            <div class="collapse show mt-2" id="collapseExample">
+            <div class="collapse show mt-2" id="collapseSubjectAnchor">
               <CardSubject v-for="n in 5"/>
             </div>
           </div>
         </div>
-        <hr>
+      </div>
+      <hr>
+      <div class="container">
         <div class="row">
           <button class="btn btn-light" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#collapseExampl"
-                  aria-expanded="false" aria-controls="collapseExample">
+                  data-bs-target="#collapseSubjectFree"
+                  aria-expanded="false" aria-controls="collapseSubjectFree" v-on:click="changeArrowFree">
             <div class="hstack gap-3">
               <div class="">Materias libres</div>
-              <div class="ms-auto"><i class="fa-solid fa-caret-down"></i></div>
+              <div class="ms-auto"><i class="fa-solid fa-caret-down" v-if="flagArrowFree"></i><i
+                  class="fa-solid fa-caret-up" v-else></i></div>
             </div>
           </button>
           <div class="subjects mt-2 mb-2 pe-0 ps-0">
-            <div class="collapse mt-2" id="collapseExampl">
+            <div class="collapse mt-2" id="collapseSubjectFree">
               <CardSubject v-for="n in 6"/>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </aside>
@@ -96,6 +105,8 @@ export default {
   },
   data() {
     return {
+      flagArrowAnchor: true,
+      flagArrowFree: true,
       subjects: [
         {
           title: "Modelos de red",
@@ -116,6 +127,14 @@ export default {
       ],
     }
   },
+  methods: {
+    changeArrowAnchor() {
+      this.flagArrowAnchor = this.flagArrowAnchor !== true;
+    },
+    changeArrowFree() {
+      this.flagArrowFree = this.flagArrowFree !== true;
+    }
+  }
 }
 </script>
 
