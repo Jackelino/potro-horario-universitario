@@ -8,6 +8,7 @@
     "preview": "vite preview --host"
   },
   "dependencies": {
+    "mosha-vue-toastify": "^1.0.23",
     "vue": "^3.2.25",
     "vue-router": "^4.0.14",
     "vue-select": "^4.0.0-beta.3"

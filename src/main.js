@@ -6,6 +6,7 @@ import './plugins/bootstrap/bootstrap.bundle.min';
 
 import './assets/scss/main.scss';
 import 'vue-select/dist/vue-select.css';
+import 'mosha-vue-toastify/dist/style.css'
 
 createApp(App)
     .component('v-select', vSelect)
