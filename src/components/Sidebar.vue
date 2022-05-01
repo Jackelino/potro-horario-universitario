@@ -22,7 +22,7 @@
         </div>
         <div class="row">
           <label for="inputEmail3" class="col-form-label">Anclar materia(s):</label>
-          <div class="">
+          <div  class="style-chooser">
             <v-select :options="subjects" label="title">
               <template #option="{ title, teacher , group}">
                 <h6 style="margin: 0">{{ title }}</h6>

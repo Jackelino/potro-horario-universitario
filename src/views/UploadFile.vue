@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="row p-0 my-1">
-            <div >
+            <div>
               <ul class="nav flex-column">
                 <li class="nav-item" v-for="file in listFile" :key="file">
                   <div class="container border border-2 rounded bg-light p-3 my-1 text-start">
@@ -40,7 +40,7 @@
                         }}
                       </div>
                       <div class="col-lg-2 col-md-2 col-sm-2">
-                          <i class="fa-solid fa-trash hover-trash" @click.prevent="removeFile(file)"></i>
+                        <i class="fa-solid fa-trash hover-trash" @click.prevent="removeFile(file)"></i>
                       </div>
                     </div>
                   </div>
@@ -92,17 +92,27 @@ export default {
     loadFiles(event) {
       this.files = event.target.files;
       for (let i = 0; i < this.files.length; i++) {
-        if (this.files[i].type === "text/csv") {
-          if (this.fileExists(this.files[i]) === false) {
-            this.listFile.push(this.files[i]);
-          }
-        } else {
-          createToast('error no se acepta este tipo de archivo', {
+        if (this.files[i].size >= 24000000) { //3MB
+          createToast('No se aceptan archivos muy pesados.', {
             type: 'danger',
             position: 'top-center',
             timeout: 4000,
             showIcon: true
-          })
+          });
+          throw new Error("Error de peso")
+        }
+        if (this.files[i].type !== "text/csv") {
+          createToast('No se acepta este tipo de archivo.', {
+            type: 'danger',
+            position: 'top-center',
+            timeout: 4000,
+            showIcon: true
+          });
+          throw new Error("Error de tipo")
+        }
+        if (this.fileExists(this.files[i]) === false) {
+          this.listFile.push(this.files[i]);
+          console.log(this.files[i])
         }
       }
     },
@@ -110,24 +120,35 @@ export default {
       this.files = event.dataTransfer.files;
 
       for (let i = 0; i < this.files.length; i++) {
-        if (this.files[i].type === "text/csv") {
-          if (this.fileExists(this.files[i]) === false) {
-            this.listFile.push(this.files[i]);
-          }
-        } else {
-          createToast('error no se acepta este tipo de archivo', {
+        if (this.files[i].size >= 24000000) { //3MB
+          createToast('No se aceptan archivos muy pesados.', {
             type: 'danger',
             position: 'top-center',
             timeout: 4000,
             showIcon: true
-          })
+          });
+          throw new Error("Error de peso")
+        }
+        if (this.files[i].type !== "text/csv") {
+          createToast('No se acepta este tipo de archivo.', {
+            type: 'danger',
+            position: 'top-center',
+            timeout: 4000,
+            showIcon: true
+          });
+          throw new Error("Error de tipo")
+        }
+        if (this.fileExists(this.files[i]) === false) {
+          this.listFile.push(this.files[i]);
+          console.log(this.files[i])
         }
       }
       this.toggleActive()
     },
     fileExists(fileFind) {
       for (let i = 0; i < this.listFile.length; i++) {
-        if (this.listFile[i].name === fileFind.name) {
+        if (this.listFile[i].name === fileFind.name && this.listFile[i].type === fileFind.type && this.listFile[i].lastModified === fileFind.lastModified) {
+          console.log('existe')
           return true;
         }
       }

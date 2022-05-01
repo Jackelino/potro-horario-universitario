@@ -5,7 +5,7 @@ import vSelect from 'vue-select'
 import './plugins/bootstrap/bootstrap.bundle.min';
 
 import './assets/scss/main.scss';
-import 'vue-select/dist/vue-select.css';
+
 import 'mosha-vue-toastify/dist/style.css'
 
 createApp(App)
