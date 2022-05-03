@@ -1,7 +1,7 @@
 <template>
     <main class="main">
         <section>
-            <div class="container-fluid pt-3 rounded">
+            <div class="container-fluid pt-3 ">
                 <TableSchedule/>
             </div>
         </section>

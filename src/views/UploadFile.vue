@@ -13,7 +13,7 @@
                    @drop.prevent="dropFile"
                    :class="activeDrop"
               >
-                <i class="fa-solid fa-cloud-arrow-up fs-1"></i>
+                <i class="fa-solid fa-cloud-arrow-up fs-1 text-info text-opacity-50"></i>
                 <h5>Arrastrar y suelta archivos para cargar</h5>
                 <small>Sus archivos se agregarán automáticamente</small>
                 <h6 class="m-3">Ó</h6>
@@ -25,7 +25,7 @@
                 </div>
 
               </div>
-
+              <div class="text-start text-muted">Solo archivos .csv menor a 3MB</div>
             </div>
           </div>
           <div class="row p-0 my-1">
@@ -118,7 +118,6 @@ export default {
     },
     dropFile(event) {
       this.files = event.dataTransfer.files;
-
       for (let i = 0; i < this.files.length; i++) {
         if (this.files[i].size >= 24000000) { //3MB
           createToast('No se aceptan archivos muy pesados.', {
@@ -127,6 +126,7 @@ export default {
             timeout: 4000,
             showIcon: true
           });
+          this.toggleActive()
           throw new Error("Error de peso")
         }
         if (this.files[i].type !== "text/csv") {
@@ -136,6 +136,7 @@ export default {
             timeout: 4000,
             showIcon: true
           });
+          this.toggleActive()
           throw new Error("Error de tipo")
         }
         if (this.fileExists(this.files[i]) === false) {

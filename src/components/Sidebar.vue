@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="row">
-          <label for="inputEmail3" class="col-form-label">Anclar materia(s):</label>
+          <label for="inputEmail3" class="col-form-label ">Anclar materia(s):</label>
           <div  class="style-chooser">
             <v-select :options="subjects" label="title">
               <template #option="{ title, teacher , group}">
@@ -60,7 +60,7 @@
                   aria-expanded="true" aria-controls="collapseSubjectAnchor" v-on:click="changeArrowAnchor">
 
             <div class="hstack gap-3">
-              <div class="">Materias Ancladas</div>
+              <div class="fw-bold">Materias Ancladas</div>
               <div class="ms-auto"><i class="fa-solid fa-caret-up" v-if="flagArrowAnchor"></i><i
                   class="fa-solid fa-caret-down" v-else></i></div>
             </div>
@@ -79,7 +79,7 @@
                   data-bs-target="#collapseSubjectFree"
                   aria-expanded="false" aria-controls="collapseSubjectFree" v-on:click="changeArrowFree">
             <div class="hstack gap-3">
-              <div class="">Materias libres</div>
+              <div class="fw-bold">Materias libres</div>
               <div class="ms-auto"><i class="fa-solid fa-caret-down" v-if="flagArrowFree"></i><i
                   class="fa-solid fa-caret-up" v-else></i></div>
             </div>

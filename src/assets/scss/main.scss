@@ -48,7 +48,7 @@ html::-webkit-scrollbar-track {
 
 .grid-container{
     display: grid;
-    grid-auto-columns: 400px auto;
+    grid-auto-columns: 350px auto;
     grid-template-areas:
         "barTop barTop"
         "header header"
@@ -112,24 +112,27 @@ html::-webkit-scrollbar-track {
 /*** table ***/
 .schedule{
     width: auto;
-    max-height: calc(100vh/2 + 110px);
+    max-height: calc(100vh/2 + 100px);
     overflow-y: scroll;
 }
 .cell{
-    width: 100px;
+    max-width: 100px;
+    min-width: 100px;
     text-align: center;
     align-items: center;
 }
 
 .empty-cell {
-    width: 100px;
+    max-width: 100px;
+    min-width: 100px;
     background-color: #dfdfdf;
     text-align: center;
     align-items: center;
 }
 
 .empty-cell:hover {
-    width: 100px;
+    max-width: 100px;
+    min-width: 100px;
     background-color: #ac9d6299;
 }
 

@@ -1,12 +1,12 @@
-<template xmlns="http://www.w3.org/1999/html">
-  <div class="container bg-light">
+<template>
+  <div class="container-fluid rounded-3 bg-light shadow-lg">
     <div class="row p-3">
       <div class="text-center">
-        <h6 class="m-0">Horario 1</h6>
+        <h6 class="m-0 fw-bold">Horario 1</h6>
       </div>
     </div>
-    <div class="row pe-3 ps-3 pb-0 pt-0 ">
-      <table class="table table-responsive m-0">
+    <div class="row pe-3 ps-3 pb-0 pt-0 schedule">
+      <table class="table table-responsive m-0 table-bordered ">
         <thead >
         <tr>
           <th scope="col" class="bg-success cell ">Hora/Día</th>
@@ -16,7 +16,7 @@
       </table>
     </div>
     <div class="row pe-3 ps-3 pb-3 pt-0 schedule" >
-      <table class="table table-responsive m-0">
+      <table class="table table-responsive table-bordered m-0">
         <tbody >
         <tr v-for="hour in hours" :key="hour">
           <th scope="row" class="bg-success text-white cell">{{ hour }}</th>
@@ -26,7 +26,7 @@
       </table>
     </div>
     <div class="row p-3">
-      <div class="col-lg-6">
+      <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="row mb-3">
           <label for="inputEmail3" class="col-sm-2 col-form-label p-2">Exportar:</label>
           <div class="col-sm-6  p-2">
@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-6">
+      <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="text-center">
           <nav aria-label="Page navigation example" class="p-2">
             <ul class="pagination justify-content-end">
