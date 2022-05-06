@@ -1,18 +1,36 @@
-# Project setup
+# Generador de Horarios Universitario 
 
-1. Install node_modules Run in terminal or CMD:
+## Descripción
+
+El Generador de Horarios Universitario es una aplicación que, alimentada
+de una lista de grupos en un archivo .csv que respeta cierto formato,
+genera todas las posibles combinaciones de horarios disponibles que
+respetan las limitaciones del usuario.
+
+## Instalación
+
+La aplicación utiliza Vue 3 y webpack para funcionar.
+
+1. Descargar el repositorio de git, a través de `git clone` o en zip.
+
+2. Instalar `node_modules` en la terminal a través del siguiente comando:
 ```
 npm install
 ```
 
-2. To build css and js for Run in terminal or CMD:
+3. Para levantar el servidor de desarrollo, ejecutar uno de los siguientes
+   comandos:
 ```
-npm run dev Or npm run build Or npm run watch
+npm run watch
+npm run dev 
 ```
-## Vue 3 + Vite
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+4. Para compilar la versión de producción, ejecutar el siguiente comando:
 
-## Recommended IDE Setup
+```
+npm run build
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+```
+
+## Créditos
+Creado con ❤️ por [Jose Manuel Fernandez Gomez](https://github.com/Jackelino) y [Carlos Carral Cortés](https://github.com/ccarral).
