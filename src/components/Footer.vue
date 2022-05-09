@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer container-fluid d-flex align-items-center ">
+    <footer class="footer container-fluid d-flex align-items-center mt-3">
         <div class="container-fluid">
             <div class="row p-3">
                 <div class="text-center">
