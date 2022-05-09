@@ -49,7 +49,7 @@
             </div>
           </div>
           <div class="row p-4">
-            <router-link to="/dashboard" class="btn btn-primary text-white" :class="nullFile">Continuar <i
+            <router-link to="/dashboard" class="btn btn-primary text-white" :class="nullFile" @click.prevent="addAllFiles(listFile)" >Continuar <i
                 class="fa-solid fa-arrow-right-long"></i></router-link>
           </div>
         </div>
@@ -60,11 +60,13 @@
 </template>
 
 <script>
+import { mapActions} from "pinia";
+import { useFileStore} from "../store/useFile";
 import Load from "../components/Load.vue"
 import Header from "../components/Header.vue"
 import Footer from "../components/Footer.vue"
 import BarTop from "../components/BarTop.vue";
-import {createToast} from 'mosha-vue-toastify';
+import {createToast} from "mosha-vue-toastify";
 
 export default {
   name: 'UploadFile',
@@ -86,6 +88,7 @@ export default {
     setTimeout(() => this.isLoading = false, 2000);
   },
   methods: {
+    ...mapActions(useFileStore, ['addAllFiles']),
     toggleActive() {
       this.activeDropzone = this.activeDropzone !== true;
     },
