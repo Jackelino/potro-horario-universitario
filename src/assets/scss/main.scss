@@ -112,8 +112,8 @@ html::-webkit-scrollbar-track {
 /*** table ***/
 .schedule{
     width: auto;
-    max-height: calc(100vh/2 + 100px);
-    overflow-y: scroll;
+    max-height: 70vh;
+    overflow-y: auto;
 }
 .cell{
     max-width: 100px;
@@ -165,8 +165,8 @@ html::-webkit-scrollbar-track {
 /*** subjects ***/
 .subjects{
     width: content-box;
-    max-height: calc(100vh/3 + 25px);
-    overflow-y: scroll;
+    max-height: 45vh;
+    overflow-y: auto;
 
 }
 
@@ -203,6 +203,7 @@ html::-webkit-scrollbar-track {
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 .dropzone{
     max-width: 500px;

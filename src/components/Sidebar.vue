@@ -8,6 +8,7 @@
               <button class="btn btn-primary btn-sm text-white" type="button" data-bs-toggle="offcanvas"
                       data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Administrar platilla...
               </button>
+              Archvos en el sidebar {{arrayFiles}}
             </div>
           </div>
         </div>
@@ -96,6 +97,8 @@
 </template>
 
 <script>
+import {mapState} from "pinia";
+import { useFileStore} from "../store/useFile";
 import CardSubject from './CardSubject.vue';
 
 export default {
@@ -134,6 +137,9 @@ export default {
     changeArrowFree() {
       this.flagArrowFree = this.flagArrowFree !== true;
     }
+  },
+  computed: {
+    ...mapState(useFileStore, ['arrayFiles'])
   }
 }
 </script>
