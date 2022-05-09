@@ -1,14 +1,16 @@
-import { createApp } from 'vue';
+import {createApp} from 'vue';
 import App from './App.vue';
+import { createPinia } from 'pinia';
 import router from './router';
 import vSelect from 'vue-select'
+// import plugin bootstrap
 import './plugins/bootstrap/bootstrap.bundle.min';
-
+//import css
 import './assets/scss/main.scss';
-
 import 'mosha-vue-toastify/dist/style.css'
 
-createApp(App)
-    .component('v-select', vSelect)
-    .use(router)
-.mount('#app')
+const app = createApp(App)
+app.component('v-select', vSelect)
+app.use(router)
+app.use(createPinia())
+app.mount('#app')
