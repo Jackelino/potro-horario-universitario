@@ -1,4 +1,4 @@
-import {defineStore} from 'pinia';
+import { defineStore } from 'pinia';
 
 export const useFileStore = defineStore('file', {
     state: () => ({
@@ -6,8 +6,8 @@ export const useFileStore = defineStore('file', {
     }),
     getters: {},
     actions: {
-        // agrega los archivos de la UoloadFile
-        addAllFiles( files ) {
+        // agrega los archivos de la UploadFile
+        addAllFiles(files) {
             this.arrayFiles = files;
         }
     }
