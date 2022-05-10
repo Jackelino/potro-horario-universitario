@@ -61,12 +61,19 @@
 
 <script>
 import { mapActions} from "pinia";
-import { useFileStore} from "../store/useFile";
+import { useFileStore } from "../store/useFile";
 import Load from "../components/Load.vue"
 import Header from "../components/Header.vue"
 import Footer from "../components/Footer.vue"
 import BarTop from "../components/BarTop.vue";
 import {createToast} from "mosha-vue-toastify";
+import init, { api_init_pools } from "uaemex-horarios";
+
+// NOTA: NO me preguntes por qué es necesaria esta lína. Tiene que ver con un
+// problema con vite, que al empaquetar y transformar los imports de wasm,
+// no reconoce una url y regresa error. Básicamente se describe en este
+// issue: https://github.com/vitejs/vite/discussions/2584 
+import wasmURL from "uaemex-horarios/uaemex_horarios_bg.wasm?url";
 
 export default {
   name: 'UploadFile',
@@ -80,23 +87,27 @@ export default {
     return {
       listFile: [],
       files: [],
+      engineInitPools: null,
       isLoading: true,
       activeDropzone: false,
     }
   },
   async mounted() {
-    setTimeout(() => this.isLoading = false, 2000);
+    init(wasmURL).then(()=>{
+        this.engineInitPools = api_init_pools;
+        this.isLoading = false;
+    });
   },
   methods: {
     ...mapActions(useFileStore, ['addAllFiles']),
     toggleActive() {
       this.activeDropzone = this.activeDropzone !== true;
     },
-    loadFiles(event) {
+    async loadFiles(event) {
       this.files = event.target.files;
       for (let i = 0; i < this.files.length; i++) {
         if (this.files[i].size >= 24000000) { //3MB
-          createToast('No se aceptan archivos muy pesados.', {
+          createToast('El archivo es demasiado pesado.', {
             type: 'danger',
             position: 'top-center',
             timeout: 4000,
@@ -105,7 +116,7 @@ export default {
           throw new Error("Error de peso")
         }
         if (this.files[i].type !== "text/csv") {
-          createToast('No se acepta este tipo de archivo.', {
+          createToast('El archivo no es de tipo texto/csv.', {
             type: 'danger',
             position: 'top-center',
             timeout: 4000,
@@ -113,6 +124,22 @@ export default {
           });
           throw new Error("Error de tipo")
         }
+        // Validar que el csv tenga el formato correcto
+        try{
+           const file = this.files[i];
+           const text = await file.text();
+           const pools = await this.engineInitPools(text);
+           console.log(pools);
+        }catch(e){
+          createToast('El archivo csv no tiene el formato correcto.', {
+            type: 'danger',
+            position: 'top-center',
+            timeout: 4000,
+            showIcon: true
+          });
+            throw new Error(e.msg)
+        }
+
         if (this.fileExists(this.files[i]) === false) {
           this.listFile.push(this.files[i]);
           console.log(this.files[i])
