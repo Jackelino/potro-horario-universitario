@@ -12,9 +12,8 @@
       </div>
       <div class="row">
         <div class="col">
-          <p class="p-0 m-0"><b>Modelos de red</b></p>
-          <p class="p-0 m-0"><b>Pallares sdf</b></p>
-          <p class="p-0 m-0"><span>Grupo:</span><b>CO01</b></p>
+          <p class="p-0 m-0"><b>{{subjectName}}</b></p>
+          <p class="p-0 m-0"><span>Grupo:</span><b>{{group}}</b></p>
         </div>
         <div class="col d-flex text-center align-items-center justify-content-center">
           <div class="stiker">
@@ -28,6 +27,16 @@
 
 <script>
 export default {
+  props:{
+    subjectName:{  
+      type: String,
+      default: "Nombre Materia"
+    },
+    group:{ 
+      type: String,
+      default: "Grupo"
+    }
+  },
   name: 'CardSubject'
 }
 </script>
