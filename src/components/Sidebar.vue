@@ -67,7 +67,6 @@
           </button>
           <div class="subjects mt-2 mb-2 pe-0 ps-0">
             <div class="collapse show mt-2" id="collapseSubjectAnchor">
-              <CardSubject v-for="n in 5"/>
             </div>
           </div>
         </div>
