@@ -159,8 +159,6 @@ export default {
           });
           throw e;
         }
-        
-
         if (this.fileExists(this.files[i]) === false) {
           this.listFile.push(this.files[i]);
           console.log(this.files[i])
