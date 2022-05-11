@@ -8,7 +8,6 @@
               <button class="btn btn-primary btn-sm text-white" type="button" data-bs-toggle="offcanvas"
                       data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Administrar platilla...
               </button>
-              Archvos en el sidebar {{arrayFiles}}
             </div>
           </div>
         </div>
@@ -37,9 +36,9 @@
           <label for="inputEmail3" class="col-form-label">Elegir materia(s):</label>
           <div class="">
             <v-select :options="subjects" label="title">
-              <template #option="{ title, teacher }">
-                <h6 style="margin: 0">{{ title }}</h6>
-                <em>{{ teacher.firstName }} {{ teacher.lastName }}</em>
+              <template #option="{ name , subject_id}">
+                <h6 style="margin: 0">{{ name }}</h6>
+                <em>{{ subject_id.id_list.join("/") }}</em>
               </template>
             </v-select>
           </div>
@@ -68,7 +67,6 @@
           </button>
           <div class="subjects mt-2 mb-2 pe-0 ps-0">
             <div class="collapse show mt-2" id="collapseSubjectAnchor">
-              <CardSubject v-for="n in 5"/>
             </div>
           </div>
         </div>
@@ -87,7 +85,10 @@
           </button>
           <div class="subjects mt-2 mb-2 pe-0 ps-0">
             <div class="collapse mt-2" id="collapseSubjectFree">
-              <CardSubject v-for="n in 6"/>
+              <CardSubject v-for="(subject, idx) in subjects"
+              :subjectName="subject.name"
+              :group="subject.subject_id.id_list.join('/')"
+              :key="idx"/>
             </div>
           </div>
         </div>
@@ -97,8 +98,9 @@
 </template>
 
 <script>
-import {mapState} from "pinia";
-import { useFileStore} from "../store/useFile";
+import { mapState } from "pinia";
+import { useFileStore } from "../store/useFile";
+import { usePoolStore } from "../store/usePools";
 import CardSubject from './CardSubject.vue';
 
 export default {
@@ -110,24 +112,6 @@ export default {
     return {
       flagArrowAnchor: true,
       flagArrowFree: true,
-      subjects: [
-        {
-          title: "Modelos de red",
-          teacher: {
-            firstName: 'Joel',
-            lastName: 'Scalzi',
-          },
-          group: 'LA34',
-        },
-        {
-          title: "Base de datos I",
-          teacher: {
-            firstName: 'John',
-            lastName: 'Scalzi',
-          },
-          group: 'fd',
-        },
-      ],
     }
   },
   methods: {
@@ -139,7 +123,8 @@ export default {
     }
   },
   computed: {
-    ...mapState(useFileStore, ['arrayFiles'])
+    ...mapState(useFileStore, ['arrayFiles']),
+    ...mapState(usePoolStore, ['subjects'])
   }
 }
 </script>
