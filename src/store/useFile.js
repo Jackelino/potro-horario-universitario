@@ -6,7 +6,7 @@ export const useFileStore = defineStore('file', {
     }),
     getters: {},
     actions: {
-        // agrega los archivos de la UploadFile
+        // agrega los archivos de la UoloadFile
         addAllFiles(files) {
             this.arrayFiles = files;
         }
