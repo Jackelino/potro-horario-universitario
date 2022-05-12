@@ -73,7 +73,7 @@ import init, { api_init_pools } from "uaemex-horarios";
 // NOTA: NO me preguntes por qué es necesaria esta lína. Tiene que ver con un
 // problema con vite, que al empaquetar y transformar los imports de wasm,
 // no reconoce una url y regresa error. Básicamente se describe en este
-// issue: https://github.com/vitejs/vite/discussions/2584 
+// issue: https://github.com/vitejs/vite/discussions/2584
 import wasmURL from "uaemex-horarios/uaemex_horarios_bg.wasm?url";
 
 export default {
@@ -179,7 +179,7 @@ export default {
           throw new Error("Error de peso")
         }
         if (this.files[i].type !== "text/csv") {
-          createToast('Solo se aceptan archivos tipo texto/csv.', {
+          createToast('El archivo no es de tipo texto/csv.', {
             type: 'danger',
             position: 'top-center',
             timeout: 4000,

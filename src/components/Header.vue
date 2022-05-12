@@ -11,7 +11,7 @@
           </div>
           <div class="align-self-center">
             <div class="align-middle">
-              <h4 class="m-0">Potro horario universitario</h4>
+              <h4 class="m-0">SIGEHO</h4>
             </div>
           </div>
           <div class="escudo-fiuaemex">

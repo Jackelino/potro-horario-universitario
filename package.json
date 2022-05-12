@@ -1,12 +1,15 @@
 {
-  "name": "potro-horario-universitario",
+  "name": "SIGEHO",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview --host"
   },
+  "keywords": [],
+  "author": "Carlos Carral Cortés and Jose Manuel Fernandez Gomez",
+  "license": "GPLv3",
   "dependencies": {
     "mosha-vue-toastify": "^1.0.23",
     "pinia": "^2.0.14",
