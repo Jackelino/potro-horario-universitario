@@ -49,7 +49,8 @@
             </div>
           </div>
           <div class="row p-4">
-            <router-link to="/dashboard" class="btn btn-primary text-white" :class="nullFile" @click.prevent="addAllFiles(listFile)" >Continuar <i
+            <router-link to="/dashboard" class="btn btn-primary text-white" :class="nullFile"
+                         @click.prevent="addAllFiles(listFile)">Continuar <i
                 class="fa-solid fa-arrow-right-long"></i></router-link>
           </div>
         </div>
@@ -60,15 +61,15 @@
 </template>
 
 <script>
-import { mapActions} from "pinia";
-import { usePoolStore } from "../store/usePools.js";
-import { useFileStore } from "../store/useFile.js";
+import {mapActions, mapState} from "pinia";
+import {usePoolStore} from "../store/usePools.js";
+import {useFileStore} from "../store/useFile.js";
 import Load from "../components/Load.vue"
 import Header from "../components/Header.vue"
 import Footer from "../components/Footer.vue"
 import BarTop from "../components/BarTop.vue";
 import {createToast} from "mosha-vue-toastify";
-import init, { api_init_pools } from "uaemex-horarios";
+import init, {api_init_pools} from "uaemex-horarios";
 
 // NOTA: NO me preguntes por qué es necesaria esta lína. Tiene que ver con un
 // problema con vite, que al empaquetar y transformar los imports de wasm,
@@ -94,10 +95,13 @@ export default {
     }
   },
   async mounted() {
-    init(wasmURL).then(()=>{
-        this.engineInitPools = api_init_pools;
-        this.isLoading = false;
+    init(wasmURL).then(() => {
+      this.engineInitPools = api_init_pools;
+      this.isLoading = false;
     });
+    // aqui le psasmos los archivos de la tienda que se cargaron antes de moverse a otra vista
+    // muestra los archivos cargados anteriormente
+    this.listFile = this.arrayFiles
   },
   methods: {
     ...mapActions(usePoolStore, ['addToSubjects']),
@@ -105,24 +109,24 @@ export default {
     toggleActive() {
       this.activeDropzone = this.activeDropzone !== true;
     },
-    async addFileToPoolStore(file){
-        // Validar que el csv tenga el formato correcto y que no se
-        // repitan materias
-        try{
-           const text = await file.text();
-           // El API lanza una exepción si no tiene el formato correcto.
-           const { pools , subjects } = await this.engineInitPools(text);
-           // Lanza una excepción si se repite una clave en el nuevo
-           // archivo
-           this.addToSubjects(subjects);
-        }catch(e){
-          // Error en API tiene propiedad msg
-          if(e.msg){
-            throw new Error(e.msg)
-          }else{
-            throw new Error(e.message)
-          }
+    async addFileToPoolStore(file) {
+      // Validar que el csv tenga el formato correcto y que no se
+      // repitan materias
+      try {
+        const text = await file.text();
+        // El API lanza una exepción si no tiene el formato correcto.
+        const {pools, subjects} = await this.engineInitPools(text);
+        // Lanza una excepción si se repite una clave en el nuevo
+        // archivo
+        this.addToSubjects(subjects);
+      } catch (e) {
+        // Error en API tiene propiedad msg
+        if (e.msg) {
+          throw new Error(e.msg)
+        } else {
+          throw new Error(e.message)
         }
+      }
 
 
     },
@@ -147,21 +151,22 @@ export default {
           });
           throw new Error("Error de tipo")
         }
-
-        try{
-            await this.addFileToPoolStore(this.files[i]);
-        }catch(e){
-          createToast(e.message, {
-            type: 'danger',
-            position: 'top-center',
-            timeout: 4000,
-            showIcon: true
-          });
-          throw e;
-        }
+        // verificammos que el archivo que quiero cargar no existe para que no
+        // ocaciones errores.
         if (this.fileExists(this.files[i]) === false) {
-          this.listFile.push(this.files[i]);
-          console.log(this.files[i])
+          try {
+            await this.addFileToPoolStore(this.files[i]);
+            this.listFile.push(this.files[i]);
+            console.log(this.files[i])
+          } catch (e) {
+            createToast(e.message, {
+              type: 'danger',
+              position: 'top-center',
+              timeout: 4000,
+              showIcon: true
+            });
+            throw e;
+          }
         }
       }
     },
@@ -188,18 +193,18 @@ export default {
           this.toggleActive()
           throw new Error("Error de tipo")
         }
-        try{
-           const file = this.files[i];
-           const text = await file.text();
-           const { pools, subjects }= await this.engineInitPools(text);
-        }catch(e){
+        try {
+          const file = this.files[i];
+          const text = await file.text();
+          const {pools, subjects} = await this.engineInitPools(text);
+        } catch (e) {
           createToast('El archivo csv no tiene el formato correcto.', {
             type: 'danger',
             position: 'top-center',
             timeout: 4000,
             showIcon: true
           });
-            throw new Error(e.msg)
+          throw new Error(e.msg)
         }
         if (this.fileExists(this.files[i]) === false) {
           this.listFile.push(this.files[i]);
@@ -225,6 +230,8 @@ export default {
     }
   },
   computed: {
+    // mapeamos los archivos cargados
+    ...mapState(useFileStore, ['arrayFiles']),
     activeDrop() {
       return (this.activeDropzone) ? 'bg-success active-dropzone' : '';
     },
