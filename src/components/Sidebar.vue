@@ -3,22 +3,7 @@
     <div class="container">
       <div class="container">
         <div class="row">
-          <div class="pt-3">
-            <div class="text-end">
-              <button class="btn btn-primary btn-sm text-white" type="button" data-bs-toggle="offcanvas"
-                      data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Administrar platilla...
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-          <div class="offcanvas-header">
-            <h5 id="offcanvasRightLabel">Cargar archivos</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body">
-            ...
-          </div>
+          <CanvasLoadFile/>
         </div>
         <div class="row">
           <label for="inputEmail3" class="col-form-label ">Anclar materia(s):</label>
@@ -102,10 +87,12 @@ import { mapState } from "pinia";
 import { useFileStore } from "../store/useFile";
 import { usePoolStore } from "../store/usePools";
 import CardSubject from './CardSubject.vue';
+import CanvasLoadFile from "./CanvasLoadFile.vue";
 
 export default {
   name: 'Sidebar',
   components: {
+    CanvasLoadFile,
     CardSubject
   },
   data() {
