@@ -7,17 +7,13 @@
     </div>
     <div class="row pe-3 ps-3 pb-0 pt-0 schedule">
       <table class="table table-responsive m-0 table-bordered ">
-        <thead >
+        <thead class="sticky-top">
         <tr>
           <th scope="col" class="bg-success cell ">Hora/Día</th>
           <th v-for="day in days" :key="day" scope="col" class="bg-success text-white cell">{{ day }}</th>
         </tr>
         </thead>
-      </table>
-    </div>
-    <div class="row pe-3 ps-3 pb-3 pt-0 schedule" >
-      <table class="table table-responsive table-bordered m-0">
-        <tbody >
+        <tbody>
         <tr v-for="hour in hours" :key="hour">
           <th scope="row" class="bg-success text-white cell">{{ hour }}</th>
           <td v-for="n in 7" class="empty-cell">Libre</td>
@@ -108,7 +104,7 @@ export default {
       days,
       hours,
       options: {
-        export: ["PDF", "CSV", "EXCEL"],
+        export: ["PDF", "EXCEL"],
       },
     };
   },

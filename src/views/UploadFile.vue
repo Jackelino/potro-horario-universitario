@@ -43,7 +43,7 @@ export default {
     }
   },
   async mounted() {
-      this.isLoading = false;
+    setTimeout(() => this.isLoading = false, 2000);
   },
   computed: {
     // mapeamos los archivos cargados

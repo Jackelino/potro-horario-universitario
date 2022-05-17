@@ -26,7 +26,7 @@
       <div>
         <ul class="nav flex-column">
           <li class="nav-item" v-for="file in listFile" :key="file">
-            <div class="container border border-2 rounded bg-light p-3 my-1 text-start">
+            <div class="container border border-2 rounded bg-light p-3 my-1 text-start file">
               <div class="row">
                 <div class="col-lg-10 col-md-10 col-sm-10">
                   <i class="fa-solid fa-file-csv text-success fs-4"></i> {{
