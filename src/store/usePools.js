@@ -21,6 +21,21 @@ export const usePoolStore = defineStore('pools', {
                 }
             }
             Array.prototype.push.apply(this.subjects, subjects);
+        },
+        addToPools(pools) {
+            Array.prototype.push.apply(this.pools, pools);
+        }
+    },
+    getters: {
+        groups: (state) => {
+            let groups = [];
+            for (let i = 0; i < state.pools.length; i++) {
+                let currentPool = state.pools[i];
+                for (let j = 0; j < currentPool.grid_list.length; j++) {
+                    groups.push(currentPool.grid_list[j]);
+                }
+            }
+            return groups;
         }
     }
 });

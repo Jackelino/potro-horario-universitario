@@ -8,11 +8,16 @@
         <div class="row">
           <label for="inputEmail3" class="col-form-label ">Anclar materia(s):</label>
           <div  class="style-chooser">
-            <v-select :options="subjects" label="title">
-              <template #option="{ title, teacher , group}">
-                <h6 style="margin: 0">{{ title }}</h6>
-                <em>{{ teacher.firstName }} {{ teacher.lastName }}</em> <br>
-                <em>{{ group }}</em>
+            <v-select 
+                :options="groups" 
+                :get-option-label="option => option.data.nombre"
+                :filter-by="(option,label,search) =>
+                    normalizeStr(label).includes(normalizeStr(search))">
+              <template #option="{data, pool_id}">
+                <h6 style="margin: 0">{{ data.nombre }}</h6>
+                <em>{{ pool_id.id_list.join("/") }}</em> <br>
+                <em>{{ data.profesor }}</em> <br>
+                <em>{{ data.grupo }}</em>
               </template>
             </v-select>
           </div>
@@ -20,8 +25,10 @@
         <div class="row">
           <label for="inputEmail3" class="col-form-label">Elegir materia(s):</label>
           <div class="">
-            <v-select :options="subjects" label="title">
-              <template #option="{ name , subject_id}">
+            <v-select :options="subjects" label="name"
+                :filter-by="(option,label,search) =>
+                    normalizeStr(label).includes(normalizeStr(search))">
+              <template #option="{name , subject_id}">
                 <h6 style="margin: 0">{{ name }}</h6>
                 <em>{{ subject_id.id_list.join("/") }}</em>
               </template>
@@ -107,11 +114,16 @@ export default {
     },
     changeArrowFree() {
       this.flagArrowFree = this.flagArrowFree !== true;
+    },
+    // Función  para quitar acentos de una palabra y convertir a
+    // minúsculas
+    normalizeStr(str){
+       return str.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
     }
   },
   computed: {
     ...mapState(useFileStore, ['arrayFiles']),
-    ...mapState(usePoolStore, ['subjects'])
+    ...mapState(usePoolStore, ['subjects', 'groups'])
   }
 }
 </script>
