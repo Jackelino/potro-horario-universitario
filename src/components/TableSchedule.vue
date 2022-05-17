@@ -26,7 +26,7 @@
         <div class="row mb-3">
           <label for="inputEmail3" class="col-sm-2 col-form-label p-2">Exportar:</label>
           <div class="col-sm-6  p-2">
-            <v-select :options="options.export" v-model="option"></v-select>
+            <v-select :options="options.export" v-model="option" placeholder="edit me"></v-select>
           </div>
           <div class="col-sm-4 p-2">
             <button type="submit" class="btn btn-primary text-white" @click.prevent="selectExport"><i
@@ -97,7 +97,11 @@ const days = [
   "Sábado",
   "Domingo"
 ];
-import xlsx from 'xlsx/dist/xlsx.full.min'
+import xlsx from 'xlsx/dist/xlsx.full.min';
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default {
   name: 'TableSchedule',
@@ -128,14 +132,42 @@ export default {
       XLSX.writeFile(workbook, 'prueba 1.xlsx');
     },
     exportPdf() {
+      let docDefinition = {
+        content: [
+          {text: 'Horario 1', style: 'header'},
+          {
+            layout: 'lightHorizontalLines', // optional
+            table: {
+              // headers are automatically repeated if the table spans over multiple pages
+              // you can declare how many rows should be treated as headers
+              headerRows: 1,
+              widths: ['*', 'auto', 100, '*'],
 
+              body: [
+                ['Hora/Día', 'Lunes', 'Martes', 'Miercoles'],
+                ['Value 1', 'Value 2', 'Value 3', 'Value 4'],
+                [{text: 'Bold value', bold: true}, 'Val 2', 'Val 3', 'Val 4']
+              ]
+            }
+          }
+        ],
+        styles: {
+          header: {
+            fontSize: 22,
+            bold: true,
+            alignment: 'center'
+          }
+        }
+      };
+      const pdf = pdfMake.createPdf(docDefinition)
+      pdf.open();
     },
-    selectExport(){
-      if(this.option === 'Excel'){
-        this.exportExcel()
+    selectExport() {
+      if (this.option === 'Excel') {
+        this.exportExcel();
       }
-      if(this.option === 'Pdf'){
-
+      if (this.option === 'Pdf') {
+        this.exportPdf();
       }
     }
   }
