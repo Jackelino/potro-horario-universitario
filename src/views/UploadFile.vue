@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "pinia";
+import { mapActions, mapState} from "pinia";
 import {useFileStore} from "../store/useFile.js";
 import Load from "../components/Load.vue"
 import Header from "../components/Header.vue"

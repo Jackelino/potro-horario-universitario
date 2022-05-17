@@ -76,7 +76,7 @@ export default {
     this.listFile = this.arrayFiles
   },
   methods: {
-    ...mapActions(usePoolStore, ['addToSubjects']),
+    ...mapActions(usePoolStore, ['addToSubjects', 'addToPools']),
     ...mapActions(useFileStore, ['addAllFiles', 'deleteFile']),
     toggleActive() {
       this.activeDropzone = this.activeDropzone !== true;
@@ -87,10 +87,13 @@ export default {
       try {
         const text = await file.text();
         // El API lanza una exepción si no tiene el formato correcto.
-        const {pools, subjects} = await this.engineInitPools(text);
+        const { pools, subjects} = await this.engineInitPools(text);
+
         // Lanza una excepción si se repite una clave en el nuevo
         // archivo
         this.addToSubjects(subjects);
+        this.addToPools(pools);
+
       } catch (e) {
         // Error en API tiene propiedad msg
         if (e.msg) {

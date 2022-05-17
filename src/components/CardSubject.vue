@@ -30,7 +30,7 @@ export default {
   props:{
     subjectName:{  
       type: String,
-      default: "Nombre Materia"
+      default: "Nombre Materia",
     },
     group:{ 
       type: String,
