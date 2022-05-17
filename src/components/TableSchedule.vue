@@ -26,10 +26,11 @@
         <div class="row mb-3">
           <label for="inputEmail3" class="col-sm-2 col-form-label p-2">Exportar:</label>
           <div class="col-sm-6  p-2">
-            <v-select :options="options.export"></v-select>
+            <v-select :options="options.export" v-model="option"></v-select>
           </div>
           <div class="col-sm-4 p-2">
-            <button type="submit" class="btn btn-primary text-white"><i class="fa-solid fa-download"></i></button>
+            <button type="submit" class="btn btn-primary text-white" @click.prevent="selectExport"><i
+                class="fa-solid fa-download"></i></button>
           </div>
         </div>
       </div>
@@ -96,6 +97,7 @@ const days = [
   "Sábado",
   "Domingo"
 ];
+import xlsx from 'xlsx/dist/xlsx.full.min'
 
 export default {
   name: 'TableSchedule',
@@ -103,12 +105,40 @@ export default {
     return {
       days,
       hours,
+      option: "",
       options: {
-        export: ["PDF", "EXCEL"],
+        export: [
+          "Excel",
+          "Pdf"
+        ],
       },
+      data: [
+        ["Profesor", "Clave", "Materia"],
+        ["A2", "B2", "C2"],
+        ["A3", "B3", "C3"]
+      ]
     };
   },
+  methods: {
+    exportExcel() {
+      const XLSX = xlsx;
+      let workbook = XLSX.utils.book_new();//creamos nuevo libro excel
+      let worksheet = XLSX.utils.aoa_to_sheet(this.data); // cramos la hoja y la informacion de la hoja
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Horario", true); // se construye el doc excel
+      XLSX.writeFile(workbook, 'prueba 1.xlsx');
+    },
+    exportPdf() {
 
+    },
+    selectExport(){
+      if(this.option === 'Excel'){
+        this.exportExcel()
+      }
+      if(this.option === 'Pdf'){
+
+      }
+    }
+  }
 }
 </script>
 
