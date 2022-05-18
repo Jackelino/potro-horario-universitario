@@ -4,7 +4,8 @@ import { EngineParams } from '../lib/engineParams';
 export const usePoolStore = defineStore('pools', {
     state: () => ({
         pools: [],
-        engineParams: new EngineParams()
+        engineParams: new EngineParams(),
+        poolsPoppedCache: []
     }),
     actions: {
         addToSubjects(subjects) {
@@ -13,7 +14,7 @@ export const usePoolStore = defineStore('pools', {
             Array.prototype.push.apply(this.subjects, subjects);
         },
         addToPools(pools) {
-            for (const newPool of subjects) {
+            for (const newPool of pools) {
                 let idList = newPool.pool_id.id_list;
                 for (const pool of this.pools) {
                     for (const newId of idList) {
@@ -27,6 +28,8 @@ export const usePoolStore = defineStore('pools', {
             }
             Array.prototype.push.apply(this.pools, pools);
         },
+        /// Agrega el pool a los parámetros del engine y la elimina de la
+        /// lista expuesta en el store.
         addPoolToEngineParams(pool) {
             // Buscar pool en this.pools y eliminarlo.
             let poolIdx = this.pools.indexOf(pool);
@@ -38,6 +41,22 @@ export const usePoolStore = defineStore('pools', {
         removePoolFromEngineParams(pool) {
             this.engineParams.removePool(pool);
             this.pools.push(pool);
+        },
+        addSeedToEngineParams(group) {
+            this.engineParams.addSeed(group);
+            let poolIdx = this.pools.findIndex(p => {
+                for (const poolId of p.pool_id.id_list) {
+                    for (const seedId of group.pool_id.id_list) {
+                        if (poolId == seedId) {
+                            return true;
+                        }
+                    }
+                }
+            });
+            let popped = this.pools.splice(poolIdx, 1);
+            this.poolsPoppedCache.push(popped);
+        },
+        removeSeedFromEngineParams(group) {
         }
     },
     getters: {

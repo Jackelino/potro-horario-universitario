@@ -9,6 +9,7 @@
           <label for="inputEmail3" class="col-form-label ">Anclar grupos:</label>
           <div  class="style-chooser">
             <v-select 
+                @option:selected="groupSelectedCallback"
                 :options="groups" 
                 :get-option-label="option => option.data.nombre"
                 :filter-by="(option,label,search) =>
@@ -56,7 +57,7 @@
                   aria-expanded="true" aria-controls="collapseSubjectAnchor" v-on:click="changeArrowAnchor">
 
             <div class="hstack gap-3">
-              <div class="fw-bold">Grupos Anclados</div>
+              <div class="fw-bold">Grupos anclados</div>
               <div class="ms-auto"><i class="fa-solid fa-caret-up" v-if="flagArrowAnchor"></i><i
                   class="fa-solid fa-caret-down" v-else></i></div>
             </div>
@@ -114,7 +115,8 @@ export default {
     }
   },
   methods: {
-   ...mapActions(usePoolStore, ['addPoolToEngineParams','removePoolFromEngineParams']),
+   ...mapActions(usePoolStore,
+   ['addPoolToEngineParams','removePoolFromEngineParams','addSeedToEngineParams']),
     subjectSelectedCallback(subject){
         // Buscar pool con subject_id == pool_id 
         let pool = this.pools.find(p => {
@@ -133,8 +135,11 @@ export default {
         if(pool){
             this.addPoolToEngineParams(pool);
         }else{
-            console.log("no se eocnontro nada!");
+            console.error("Esto no debería de suceder!");
         }
+    },
+    groupSelectedCallback(group){
+        this.addSeedToEngineParams(group);
     },
     changeArrowAnchor() {
       this.flagArrowAnchor = this.flagArrowAnchor !== true;
