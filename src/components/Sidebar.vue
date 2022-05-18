@@ -64,6 +64,12 @@
           </button>
           <div class="subjects mt-2 mb-2 pe-0 ps-0">
             <div class="collapse show mt-2" id="collapseSubjectAnchor">
+              <CardSubject v-for="(group, idx) in selectedGroups"
+              :subjectName="group.data.nombre"
+              :id="group.pool_id.id_list.join('/')"
+              :group="group.data.grupo"
+              :teacher="group.data.profesor"
+              :key="idx"/>
             </div>
           </div>
         </div>
@@ -74,7 +80,7 @@
           <button class="btn btn-light" type="button" data-bs-toggle="collapse"
                   data-bs-target="#collapseSubjectFree"
                   aria-expanded="false" aria-controls="collapseSubjectFree" v-on:click="changeArrowFree">
-            <div class="hstack gap-3">
+              <div class="hstack gap-3">
               <div class="fw-bold">Materias libres</div>
               <div class="ms-auto"><i class="fa-solid fa-caret-down" v-if="flagArrowFree"></i><i
                   class="fa-solid fa-caret-up" v-else></i></div>
@@ -155,7 +161,7 @@ export default {
   },
   computed: {
     ...mapState(useFileStore, ['arrayFiles']),
-    ...mapState(usePoolStore, ['pools','subjects', 'groups','selectedSubjects'])
+    ...mapState(usePoolStore, ['pools','subjects', 'groups','selectedSubjects', 'selectedGroups'])
   }
 }
 </script>

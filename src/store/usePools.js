@@ -79,6 +79,9 @@ export const usePoolStore = defineStore('pools', {
         },
         selectedSubjects: (state) => {
             return state.engineParams.subjects;
+        },
+        selectedGroups: (state) => {
+            return state.engineParams.seeds;
         }
     }
 });
