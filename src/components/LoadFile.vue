@@ -140,6 +140,13 @@ export default {
             });
             throw e;
           }
+        } else {
+          createToast('Este archivo ya esta cargado.', {
+            type: 'warning',
+            position: 'top-center',
+            timeout: 4000,
+            showIcon: true
+          });
         }
       }
     },
@@ -183,6 +190,13 @@ export default {
             this.toggleActive()
             throw e;
           }
+        } else {
+          createToast('Este archivo ya esta cargado.', {
+            type: 'warning',
+            position: 'top-center',
+            timeout: 4000,
+            showIcon: true
+          });
         }
       }
       this.toggleActive()
@@ -190,7 +204,6 @@ export default {
     fileExists(fileFind) {
       for (let i = 0; i < this.listFile.length; i++) {
         if (this.listFile[i].name === fileFind.name && this.listFile[i].type === fileFind.type && this.listFile[i].lastModified === fileFind.lastModified) {
-          console.log('existe')
           return true;
         }
       }

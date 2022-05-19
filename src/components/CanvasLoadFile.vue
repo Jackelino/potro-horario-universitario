@@ -1,9 +1,14 @@
 <template>
   <div class="pt-3">
-    <div class="text-end">
-      <button class="btn btn-primary btn-sm text-white" type="button" data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Administrar platilla...
-      </button>
+    <div class="d-flex justify-content-between">
+      <div class="text-center">
+        <i class="fa-solid fa-circle-question text-primary pe-auto"  data-bs-toggle="tooltip" data-bs-placement="top" title="Esto es un ejemplo de tooltip de ayuda"></i>
+      </div>
+      <div class="text-end">
+        <button class="btn btn-primary btn-sm text-white" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Administrar platilla...
+        </button>
+      </div>
     </div>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
       <div class="offcanvas-header">
@@ -19,6 +24,7 @@
 
 <script>
 import LoadFile from "./LoadFile.vue";
+
 export default {
   name: "CanvasLoadFile",
   components: {

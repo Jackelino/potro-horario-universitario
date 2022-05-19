@@ -9,7 +9,7 @@
       <table class="table table-responsive m-0 table-bordered ">
         <thead class="sticky-top">
         <tr>
-          <th scope="col" class="bg-success cell ">Hora/Día</th>
+          <th scope="col" class="bg-success text-white cell">Hora\Día</th>
           <th v-for="day in days" :key="day" scope="col" class="bg-success text-white cell">{{ day }}</th>
         </tr>
         </thead>
@@ -25,8 +25,8 @@
       <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="row mb-3">
           <label for="inputEmail3" class="col-sm-2 col-form-label p-2">Exportar:</label>
-          <div class="col-sm-6  p-2">
-            <v-select :options="options.export" v-model="option" placeholder="edit me"></v-select>
+          <div class="col-sm-6 p-2 ">
+            <v-select class="" :options="options.export" v-model="option" placeholder="Elige un formato"></v-select>
           </div>
           <div class="col-sm-4 p-2">
             <button type="submit" class="btn btn-primary text-white" @click.prevent="selectExport"><i
@@ -41,8 +41,8 @@
               <li class="page-item disabled">
                 <a class="page-link"><i class="fa-solid fa-angle-left"></i></a>
               </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item active"><a class="page-link" href="#">2</a></li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
               <li class="page-item"><a class="page-link" href="#">3</a></li>
               <li class="page-item">
                 <a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a>
@@ -109,7 +109,7 @@ export default {
     return {
       days,
       hours,
-      option: "",
+      option: null,
       options: {
         export: [
           "Excel",

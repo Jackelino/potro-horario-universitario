@@ -48,6 +48,7 @@ $border-radius: $vs-border-radius;
     cursor: pointer;
 }
 .vs--open .vs__dropdown-toggle {
+    border: $border-width $border-style $border-color;
     border-bottom-color: transparent;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
