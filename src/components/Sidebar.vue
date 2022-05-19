@@ -90,6 +90,7 @@
           <div class="subjects mt-2 mb-2 pe-0 ps-0">
             <div class="collapse mt-2" id="collapseSubjectFree">
               <CardSubject v-for="(subject, idx) in selectedSubjects"
+              @closed="removePoolFromEngineParams(subject.subject_id)"
               :subjectName="subject.name"
               :id="subject.subject_id.id_list.join('/')"
               :key="idx"/>
@@ -147,9 +148,21 @@ export default {
         }
     },
     groupSelectedCallback(group){
-        console.log("Esto es lo que se agrega:");
-        console.log(group);
         this.addSeedToEngineParams(group);
+    },
+    deletedSubjectCallback(subject){
+        // Buscar una pool con el mismo id y borrarla de los parámetros
+        let pool = this.pools.find(p => {
+            for(const poolId of p.pool_id.id_list){
+                for(const subjectId of subject.subject_id.id_list){
+                    if(subjectId === poolId){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        });
+
     },
     changeArrowAnchor() {
       this.flagArrowAnchor = this.flagArrowAnchor !== true;

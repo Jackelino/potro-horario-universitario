@@ -37,8 +37,8 @@ export const usePoolStore = defineStore('pools', {
                 this.engineParams.addPool(pool);
             }
         },
-        removePoolFromEngineParams(pool) {
-            this.engineParams.removePool(pool);
+        removePoolFromEngineParams(poolId) {
+            let pool = this.engineParams.removePool(poolId);
             this.pools.push(pool);
         },
         addSeedToEngineParams(group) {
@@ -77,7 +77,6 @@ export const usePoolStore = defineStore('pools', {
             let groups = [];
             for (let i = 0; i < state.pools.length; i++) {
                 let currentPool = state.pools[i];
-                console.log(currentPool);
                 for (let j = 0; j < currentPool.grid_list.length; j++) {
                     groups.push(currentPool.grid_list[j]);
                 }

@@ -31,12 +31,12 @@ export class EngineParams {
         }
         this.pool_list.push(pool);
     }
-    removePool(pool) {
-        let poolIdx = this.pool_list.indexOf(pool);
+    removePool(poolId) {
+        let poolIdx = this.pool_list.findIndex(pool => pool.pool_id.id_list === poolId.id_list);
         if (poolIdx !== -1) {
-            this.pool_list.splice(poolIdx, 1);
+            return this.pool_list.splice(poolIdx, 1).pop();
         } else {
-            console.log("No se encontró la pool!");
+            console.error("No se encontró la pool!");
         }
     }
     addSeed(seed) {
