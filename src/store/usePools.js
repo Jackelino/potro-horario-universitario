@@ -52,12 +52,12 @@ export const usePoolStore = defineStore('pools', {
                     }
                 }
             });
-            let popped = this.pools.splice(poolIdx, 1);
+            let popped = this.pools.splice(poolIdx, 1).pop();
             this.poolsPoppedCache.push(popped);
         },
         removeSeedFromEngineParams(group) {
             this.engineParams.removeSeed(group);
-            this.poolsPoppedCache.find(p => {
+            let poolIdx = this.poolsPoppedCache.findIndex(p => {
                 for (const poolId of p.pool_id.id_list) {
                     for (const seedId of group.pool_id.id_list) {
                         if (poolId == seedId) {
@@ -66,7 +66,10 @@ export const usePoolStore = defineStore('pools', {
                     }
                 }
                 return false;
-            })
+            });
+
+            let pool = this.poolsPoppedCache.splice(poolIdx, 1).pop();
+            this.pools.push(pool);
         }
     },
     getters: {
@@ -74,6 +77,7 @@ export const usePoolStore = defineStore('pools', {
             let groups = [];
             for (let i = 0; i < state.pools.length; i++) {
                 let currentPool = state.pools[i];
+                console.log(currentPool);
                 for (let j = 0; j < currentPool.grid_list.length; j++) {
                     groups.push(currentPool.grid_list[j]);
                 }

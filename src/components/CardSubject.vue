@@ -4,7 +4,7 @@
       <div class="conatainer">
         <div class="position-relative">
           <div class="position-absolute top-0 end-0">
-            <button type="button" class="btn btn-dark p-0 pe-1 ps-1">
+            <button @click="$emit('closed')" type="button" class="btn btn-dark p-0 pe-1 ps-1">
               <i class="fa-solid fa-xmark "></i>
             </button>
           </div>

@@ -65,6 +65,7 @@
           <div class="subjects mt-2 mb-2 pe-0 ps-0">
             <div class="collapse show mt-2" id="collapseSubjectAnchor">
               <CardSubject v-for="(group, idx) in selectedGroups"
+              @closed="removeSeedFromEngineParams(group)"
               :subjectName="group.data.nombre"
               :id="group.pool_id.id_list.join('/')"
               :group="group.data.grupo"
@@ -122,7 +123,8 @@ export default {
   },
   methods: {
    ...mapActions(usePoolStore,
-   ['addPoolToEngineParams','removePoolFromEngineParams','addSeedToEngineParams']),
+   ['addPoolToEngineParams','removePoolFromEngineParams','addSeedToEngineParams',
+   'removeSeedFromEngineParams']),
     subjectSelectedCallback(subject){
         // Buscar pool con subject_id == pool_id 
         let pool = this.pools.find(p => {
@@ -145,6 +147,8 @@ export default {
         }
     },
     groupSelectedCallback(group){
+        console.log("Esto es lo que se agrega:");
+        console.log(group);
         this.addSeedToEngineParams(group);
     },
     changeArrowAnchor() {

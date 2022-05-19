@@ -57,7 +57,7 @@ export class EngineParams {
     removeSeed(group) {
         let seedIdx = this.seeds.indexOf(group);
         if (seedIdx !== -1) {
-            this.seeds.splice(seedIdx, 1);
+            return this.seeds.splice(seedIdx, 1).pop();
         } else {
             console.error("No se encontró la seed!");
         }
