@@ -10,7 +10,6 @@ export const usePoolStore = defineStore('pools', {
     actions: {
         addToSubjects(subjects) {
             // Verificar que no tenemos dos materias con el mismo id
-
             Array.prototype.push.apply(this.subjects, subjects);
         },
         addToPools(pools) {
@@ -57,6 +56,17 @@ export const usePoolStore = defineStore('pools', {
             this.poolsPoppedCache.push(popped);
         },
         removeSeedFromEngineParams(group) {
+            this.engineParams.removeSeed(group);
+            this.poolsPoppedCache.find(p => {
+                for (const poolId of p.pool_id.id_list) {
+                    for (const seedId of group.pool_id.id_list) {
+                        if (poolId == seedId) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            })
         }
     },
     getters: {
