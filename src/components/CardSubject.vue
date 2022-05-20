@@ -4,7 +4,7 @@
       <div class="conatainer">
         <div class="position-relative">
           <div class="position-absolute top-0 end-0">
-            <button type="button" class="btn btn-dark p-0 pe-1 ps-1">
+            <button @click="$emit('closed')" type="button" class="btn btn-dark p-0 pe-1 ps-1">
               <i class="fa-solid fa-xmark "></i>
             </button>
           </div>
@@ -13,7 +13,10 @@
       <div class="row">
         <div class="col">
           <p class="p-0 m-0"><b>{{ subjectName }}</b></p>
-          <p class="p-0 m-0"><span>Grupo:</span><b>{{ group }}</b></p>
+          <p v-if="group" class="p-0 m-0"><span>Grupo: </span><b>{{ group }}</b></p>
+          <p v-if="id" class="p-0 m-0"><span>Clave: </span><b>{{ id }}</b></p>
+          <p v-if="teacher" class="p-0 m-0"><span>Profesor(a):
+          </span><b>{{ teacher }}</b></p>
         </div>
         <div class="col d-flex text-center align-items-center justify-content-center">
           <div class="stiker">
@@ -34,8 +37,17 @@ export default {
     },
     group: {
       type: String,
-      default: "Grupo"
+      optional: true,
+    },
+    id:{
+      type: String,
+      optional: true,
+    },
+    teacher:{
+      type: String,
+      optional: true
     }
+
   },
   name: 'CardSubject'
 }
