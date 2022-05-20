@@ -68,6 +68,7 @@
                   aria-expanded="true" aria-controls="collapseSubjectAnchor" v-on:click="changeArrowAnchor">
 
             <div class="hstack gap-3">
+
               <div class="fw-bold">Grupos anclados</div>
               <div class="ms-auto"><i class="fa-solid fa-caret-up" v-if="flagArrowAnchor"></i><i
                   class="fa-solid fa-caret-down" v-else></i></div>
@@ -94,8 +95,9 @@
                   aria-expanded="false" aria-controls="collapseSubjectFree" v-on:click="changeArrowFree">
               <div class="hstack gap-3">
               <div class="fw-bold">Materias libres</div>
-              <div class="ms-auto"><i class="fa-solid fa-caret-down" v-if="flagArrowFree"></i><i
-                  class="fa-solid fa-caret-up" v-else></i></div>
+              <div class="ms-auto">
+                <i class="fa-solid fa-angle-down fs-6 fw-bold" v-if="flagArrowFree"></i>
+                <i class="fa-solid fa-angle-up fs-6 fw-bold" v-else></i></div>
             </div>
           </button>
           <div class="subjects mt-2 mb-2 pe-0 ps-0">
