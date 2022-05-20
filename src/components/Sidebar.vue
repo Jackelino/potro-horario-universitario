@@ -41,7 +41,8 @@
           </div>
           <div class="col-form-label">
             <div class="text-center">
-              <button type="button" class="btn btn-primary text-white"><i class="fa-solid fa-code-compare"></i> Generar
+              <button type="button" class="btn btn-primary text-white"
+              @click="engineRun" :disabled="!engineReady"><i class="fa-solid fa-code-compare"></i> Generar
                 combinaciones
               </button>
             </div>
@@ -51,6 +52,16 @@
       </div>
       <hr>
       <div class="container">
+      <div class="container">
+          <div class="">
+          <button @click="decEngineBound">
+            <i class="fa-solid fa-minus"></i>
+          </button>
+           {{engineParams.bound}} 
+          <button @click="incEngineBound"><i class="fa-solid fa-plus"></i>
+          </button>
+          </div>
+      </div>
         <div class="row">
           <button class="btn btn-light" type="button" data-bs-toggle="collapse"
                   data-bs-target="#collapseSubjectAnchor"
@@ -106,8 +117,15 @@
 import { mapState , mapActions } from "pinia";
 import { useFileStore } from "../store/useFile";
 import { usePoolStore } from "../store/usePools";
+import { useEngineResults } from "../store/useEngineResults";
 import CardSubject from './CardSubject.vue';
 import CanvasLoadFile from "./CanvasLoadFile.vue";
+import init, { api_engine_main } from "uaemex-horarios";
+// NOTA: NO me preguntes por qué es necesaria esta lína. Tiene que ver con un
+// problema con vite, que al empaquetar y transformar los imports de wasm,
+// no reconoce una url y regresa error. Básicamente se describe en este
+// issue: https://github.com/vitejs/vite/discussions/2584
+import wasmURL from "uaemex-horarios/uaemex_horarios_bg.wasm?url";
 
 export default {
   name: 'Sidebar',
@@ -120,12 +138,22 @@ export default {
       seleccionado: null,
       flagArrowAnchor: true,
       flagArrowFree: true,
+      apiEngineMain: null,
+      engineReady: false,
     }
+  },
+  mounted(){
+    init(wasmURL).then(() =>{
+        this.apiEngineMain = api_engine_main;
+        this.engineReady = true;
+    });
   },
   methods: {
    ...mapActions(usePoolStore,
    ['addPoolToEngineParams','removePoolFromEngineParams','addSeedToEngineParams',
-   'removeSeedFromEngineParams']),
+   'removeSeedFromEngineParams', 'incEngineBound',
+   'decEngineBound']),
+    ...mapActions(useEngineResults, ['setResults']),
     subjectSelectedCallback(subject){
         // Buscar pool con subject_id == pool_id 
         let pool = this.pools.find(p => {
@@ -150,20 +178,6 @@ export default {
     groupSelectedCallback(group){
         this.addSeedToEngineParams(group);
     },
-    deletedSubjectCallback(subject){
-        // Buscar una pool con el mismo id y borrarla de los parámetros
-        let pool = this.pools.find(p => {
-            for(const poolId of p.pool_id.id_list){
-                for(const subjectId of subject.subject_id.id_list){
-                    if(subjectId === poolId){
-                        return true;
-                    }
-                }
-            }
-            return false;
-        });
-
-    },
     changeArrowAnchor() {
       this.flagArrowAnchor = this.flagArrowAnchor !== true;
     },
@@ -174,15 +188,18 @@ export default {
     // minúsculas
     normalizeStr(str){
        return str.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+    },
+    engineRun(){
+        let engineResults = this.apiEngineMain(this.engineParams);
+        this.setResults(engineResults); 
     }
   },
   computed: {
     ...mapState(useFileStore, ['arrayFiles']),
-    ...mapState(usePoolStore, ['pools','subjects', 'groups','selectedSubjects', 'selectedGroups'])
+    ...mapState(usePoolStore,
+    ['pools','subjects','groups','selectedSubjects', 'selectedGroups',
+    'engineParams']),
   }
 }
 </script>
 
-<style>
-
-</style>

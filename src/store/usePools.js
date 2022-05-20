@@ -35,14 +35,27 @@ export const usePoolStore = defineStore('pools', {
             if (poolIdx !== -1) {
                 this.pools.splice(poolIdx, 1);
                 this.engineParams.addPool(pool);
+                this.incEngineBound();
             }
         },
         removePoolFromEngineParams(poolId) {
             let pool = this.engineParams.removePool(poolId);
             this.pools.push(pool);
+            this.decEngineBound();
+        },
+        incEngineBound() {
+            if (this.engineParams.bound < (this.engineParams.pool_list.length + this.engineParams.seeds.length)) {
+                this.engineParams.bound++;
+            }
+        },
+        decEngineBound() {
+            if (this.engineParams.bound > 0) {
+                this.engineParams.bound--;
+            }
         },
         addSeedToEngineParams(group) {
             this.engineParams.addSeed(group);
+            this.incEngineBound();
             let poolIdx = this.pools.findIndex(p => {
                 for (const poolId of p.pool_id.id_list) {
                     for (const seedId of group.pool_id.id_list) {
@@ -57,6 +70,7 @@ export const usePoolStore = defineStore('pools', {
         },
         removeSeedFromEngineParams(group) {
             this.engineParams.removeSeed(group);
+            this.decEngineBound();
             let poolIdx = this.poolsPoppedCache.findIndex(p => {
                 for (const poolId of p.pool_id.id_list) {
                     for (const seedId of group.pool_id.id_list) {
