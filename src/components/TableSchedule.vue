@@ -17,7 +17,7 @@
         <tr v-for="hour in hours" :key="hour">
           <th scope="row" class="bg-success text-white cell">{{ hour }}</th>
           <td v-for="day in days" :class="gridView[hour][day].style"
-          class="colored-block">
+          class="colored-block center-label">
 
           {{gridView[hour][day].label}}
           </td>
@@ -153,6 +153,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.center-label{
+    text-align:center;
+}
 </style>
