@@ -13,8 +13,9 @@ export class ScheduleView {
     setGridLabel(idx, label) { this.grids[idx].label = label; }
     pushGrid(grid) {
         grid.id = this.idCtr;
-        grid.style = this.colorPool.reverse().pop();
-        grid.label = this.labels.pop();
+        // Reverse pop
+        grid.style = this.colorPool.shift();
+        grid.label = this.labels.shift();
         this.grids.push(grid);
         this.idCtr++;
     }
