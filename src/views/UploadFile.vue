@@ -8,9 +8,9 @@
         <div class="container">
           <LoadFile/>
           <div class="row p-4">
-            <router-link to="/dashboard" class="btn btn-primary text-white" :class="nullFile"
-                         @click.prevent="addAllFiles(listFile)">Continuar <i
-                class="fa-solid fa-arrow-right-long"></i></router-link>
+            <router-link to="/dashboard" class="btn btn-primary text-white align-middle" :class="nullFile"
+                         @click.prevent="addAllFiles(listFile)">Continuar <i class="fa-solid fa-arrow-right-long"></i>
+            </router-link>
           </div>
         </div>
       </section>
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { mapActions, mapState} from "pinia";
+import {mapActions, mapState} from "pinia";
 import {useFileStore} from "../store/useFile.js";
 import Load from "../components/Load.vue"
 import Header from "../components/Header.vue"
@@ -55,7 +55,7 @@ export default {
 }
 </script>
 
-<style >
+<style>
 
 
 </style>

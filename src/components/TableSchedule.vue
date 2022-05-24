@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid rounded-3 bg-light shadow-lg">
+  <div class="container-fluid">
     <div class="row p-3">
       <div class="text-center">
         <h6 class="m-0 fw-bold">Horario 1</h6>
@@ -21,7 +21,7 @@
         </tbody>
       </table>
     </div>
-    <div class="row p-3">
+    <div class="row p-1">
       <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="row mb-3">
           <label for="inputEmail3" class="col-sm-2 col-form-label p-2">Exportar:</label>
@@ -32,23 +32,6 @@
             <button type="submit" class="btn btn-primary text-white" @click.prevent="selectExport"><i
                 class="fa-solid fa-download"></i></button>
           </div>
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-6 col-sm-6">
-        <div class="text-center">
-          <nav aria-label="Page navigation example" class="p-2">
-            <ul class="pagination justify-content-end">
-              <li class="page-item disabled">
-                <a class="page-link"><i class="fa-solid fa-angle-left"></i></a>
-              </li>
-              <li class="page-item active"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a>
-              </li>
-            </ul>
-          </nav>
         </div>
       </div>
     </div>
