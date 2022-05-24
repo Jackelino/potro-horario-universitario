@@ -16,7 +16,9 @@
         <tbody>
         <tr v-for="hour in hours" :key="hour">
           <th scope="row" class="bg-success text-white cell">{{ hour }}</th>
-          <td v-for="n in 7" class="empty-cell">Libre</td>
+          <td v-for="day in days" class="empty-cell">
+          {{gridView[hour][day].label}}
+          </td>
         </tr>
         </tbody>
       </table>
@@ -39,55 +41,20 @@
 </template>
 
 <script>
-const hours = [
-  "07:00:00",
-  "07:30:00",
-  "08:00:00",
-  "08:30:00",
-  "09:00:00",
-  "09:30:00",
-  "10:00:00",
-  "10:30:00",
-  "11:00:00",
-  "11:30:00",
-  "12:00:00",
-  "12:30:00",
-  "13:00:00",
-  "13:30:00",
-  "14:00:00",
-  "14:30:00",
-  "15:00:00",
-  "15:30:00",
-  "16:00:00",
-  "16:30:00",
-  "17:00:00",
-  "17:30:00",
-  "18:00:00",
-  "18:30:00",
-  "19:00:00",
-  "19:30:00",
-  "20:00:00",
-  "20:30:00",
-  "21:00:00",
-  "21:30:00"
-];
-const days = [
-  "Lunes",
-  "Martes",
-  "Miércoles",
-  "Jueves",
-  "Viernes",
-  "Sábado",
-  "Domingo"
-];
+import {days, hours} from "../lib/dateTimeConstants";
+import {instanceGridView, getBlocks} from "../lib/block";
 import xlsx from 'xlsx/dist/xlsx.full.min';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
+import {ScheduleView } from "../lib/gridUtils.js";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default {
   name: 'TableSchedule',
+  props:{
+    scheduleView: ScheduleView 
+  },
   data() {
     return {
       days,
@@ -105,6 +72,33 @@ export default {
         ["A3", "B3", "C3"]
       ]
     };
+  },
+  computed:{
+    // La variable gridview almacena de manera matricial todos los Blocks
+    // (uno para cada día x hora)
+    gridView() {
+        let gridView = instanceGridView();
+        if(this.scheduleView){
+            let grids = this.scheduleView.grids;
+            for (const grid of grids) {
+                const DAYS = 7;
+                for (let j = 0; j < DAYS; j++) {
+                    if (grid.time_values[j]) {
+                        let start = grid.time_values[j][0];
+                        let end = grid.time_values[j][1];
+                        let blocks = getBlocks(start, end);
+                        let day = days[j];
+                        for (const block of blocks) {
+                            gridView[block][day].pushGrid(grid);
+                        }
+                    }
+                }
+            }
+            return gridView;
+    }
+
+        }
+      
   },
   methods: {
     exportExcel() {

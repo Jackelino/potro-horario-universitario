@@ -5,7 +5,7 @@
         <li class="page-item disabled">
           <a class="page-link"><i class="fa-solid fa-angle-left"></i></a>
         </li>
-        <li class="page-item" v-for="(item, index) in engineResults[0].grids" :key="index"><a class="page-link" href="#">{{index + 1}}</a></li>
+        <li class="page-item" v-for="(item, index) in results" :key="index"><a class="page-link" href="#">{{index + 1}}</a></li>
         <li class="page-item">
           <a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a>
         </li>
@@ -15,8 +15,6 @@
 </template>
 
 <script>
-import { mapState} from 'pinia';
-import { useEngineResults} from "../store/useEngineResults";
 export default {
   name: "Pagination",
   data() {
@@ -24,10 +22,9 @@ export default {
       numberGrids: 0
     }
   },
-  computed: {
-    ...mapState( useEngineResults, ['engineResults'])
+  props:{
+    results: Array
   },
-
 }
 </script>
 
