@@ -16,7 +16,8 @@
         <tbody>
         <tr v-for="hour in hours" :key="hour">
           <th scope="row" class="bg-success text-white cell">{{ hour }}</th>
-          <td v-for="day in days" class="empty-cell">
+          <td v-for="day in days" :class="gridView[hour][day].style">
+
           {{gridView[hour][day].label}}
           </td>
         </tr>

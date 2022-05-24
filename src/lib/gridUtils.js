@@ -6,14 +6,14 @@ export class ScheduleView {
         this.labels = ["🐙", "🐦", "👽", "👟", "🐶", "🏀", "🗿", "👾", "💭", "🤖"];
         this.colorPool = [
             "color-1", "color-2", "color-3", "color-4", "color-5", "color-6",
-            "color-7", "color-8"
+            "color-7", "color-8", "color-9", "color-10"
         ];
     }
     setGridStyle(idx, style) { this.grids[idx].style = style; }
     setGridLabel(idx, label) { this.grids[idx].label = label; }
     pushGrid(grid) {
         grid.id = this.idCtr;
-        grid.style = this.colorPool.pop();
+        grid.style = this.colorPool.reverse().pop();
         grid.label = this.labels.pop();
         this.grids.push(grid);
         this.idCtr++;

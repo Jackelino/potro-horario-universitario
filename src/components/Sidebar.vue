@@ -200,7 +200,7 @@ export default {
       "incEngineBound",
       "decEngineBound",
     ]),
-    ...mapActions(useEngineResults, ["setResults"]),
+    ...mapActions(useEngineResults, ["setResults", "setEngineRan"]),
     subjectSelectedCallback(subject) {
       // Buscar pool con subject_id == pool_id
       let pool = this.pools.find((p) => {
@@ -242,6 +242,7 @@ export default {
     engineRun() {
       let engineResults = this.apiEngineMain(this.engineParams);
       this.setResults(engineResults);
+      this.setEngineRan(true);
     },
   },
   computed: {
