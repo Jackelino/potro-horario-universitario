@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { EngineParams } from '../lib/engineParams';
+import { ScheduleView } from '../lib/gridUtils';
 
 export const usePoolStore = defineStore('pools', {
     state: () => ({
@@ -97,6 +98,7 @@ export const usePoolStore = defineStore('pools', {
             }
             return groups;
         },
+        // Regresa todos los grupos contenidos en los pools
         subjects: (state) => {
             return state.pools.map((val) => ({
                 name: val.grid_list[0].data.nombre,
@@ -106,6 +108,13 @@ export const usePoolStore = defineStore('pools', {
         },
         selectedSubjects: (state) => {
             return state.engineParams.subjects;
+        },
+        selectedGroupsAsScheduleView(): ScheduleView {
+            let scheduleView = new ScheduleView();
+            for (const subject of this.selectedGroups) {
+                scheduleView.pushGrid(subject);
+            }
+            return scheduleView;
         },
         selectedGroups: (state) => {
             return state.engineParams.seeds;
