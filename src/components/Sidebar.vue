@@ -14,8 +14,7 @@
               :get-option-label="(option) => option.data.nombre"
               :filter-by="
                 (option, label, search) =>
-                  normalizeStr(label).includes(normalizeStr(search))
-              "
+                  normalizeStr(label).includes(normalizeStr(search))"
             >
               <template #option="{ data, pool_id }">
                 <h6 style="margin: 0">{{ data.nombre }}</h6>
@@ -111,6 +110,8 @@
                 :group="group.data.grupo"
                 :teacher="group.data.profesor"
                 :key="idx"
+                :label="group.label"
+                :style="group.style"
               />
             </div>
           </div>
@@ -249,12 +250,15 @@ export default {
     ...mapState(useFileStore, ["arrayFiles"]),
     ...mapState(usePoolStore, [
       "pools",
+      "selectedSubjects",
+      "selectedGroupsAsScheduleView",
+      "engineParams",
       "subjects",
       "groups",
-      "selectedSubjects",
-      "selectedGroups",
-      "engineParams",
     ]),
+    selectedGroups(){
+        return this.selectedGroupsAsScheduleView.grids;
+    }
   },
 };
 </script>

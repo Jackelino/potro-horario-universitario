@@ -2,7 +2,7 @@
   <main class="main">
     <section>
       <div class="container-fluid pt-3 rounded-3 bg-light shadow-lg">
-        <TableSchedule :scheduleView="scheduleView"/>
+        <TableSchedule :scheduleView="currentScheduleView"/>
         <div class="container">
           <Pagination :results="engineResults || []"/>
         </div>
@@ -17,7 +17,7 @@ import Pagination from "./Pagination.vue";
 import { mapState } from 'pinia';
 import { useEngineResults } from "../store/useEngineResults";
 import { useScheduleView } from "../store/useScheduleView";
-import { ScheduleView } from "../lib/gridUtils.js";
+import { usePoolStore } from "../store/usePools";
 
 export default {
   name: "Main",
@@ -33,6 +33,14 @@ export default {
   computed:{
     ...mapState( useEngineResults, ['engineResults']),
     ...mapState( useScheduleView, ['scheduleView']),
+    ...mapState( usePoolStore, ['selectedGroupsAsScheduleView']),
+    currentScheduleView(){
+        if(this.engineResults.engineRan){
+            return this.scheduleView;
+        }else{
+            return this.selectedGroupsAsScheduleView;
+        }
+    }
   }
 };
 </script>

@@ -47,7 +47,7 @@
 
 <script>
 import {mapActions, mapState} from "pinia";
-import {usePoolStore} from "../store/usePools.js";
+import {usePoolStore} from "../store/usePools";
 import {useFileStore} from "../store/useFile.js";
 import {createToast} from "mosha-vue-toastify";
 import init, {api_init_pools} from "uaemex-horarios";
