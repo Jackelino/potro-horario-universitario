@@ -14,8 +14,7 @@
               :get-option-label="(option) => option.data.nombre"
               :filter-by="
                 (option, label, search) =>
-                  normalizeStr(label).includes(normalizeStr(search))
-              "
+                  normalizeStr(label).includes(normalizeStr(search))"
             >
               <template #option="{ data, pool_id }">
                 <h6 style="margin: 0">{{ data.nombre }}</h6>
@@ -111,6 +110,8 @@
                 :group="group.data.grupo"
                 :teacher="group.data.profesor"
                 :key="idx"
+                :label="group.label"
+                :style="group.style"
               />
             </div>
           </div>
@@ -200,7 +201,7 @@ export default {
       "incEngineBound",
       "decEngineBound",
     ]),
-    ...mapActions(useEngineResults, ["setResults"]),
+    ...mapActions(useEngineResults, ["setResults", "setEngineRan"]),
     subjectSelectedCallback(subject) {
       // Buscar pool con subject_id == pool_id
       let pool = this.pools.find((p) => {
@@ -242,18 +243,22 @@ export default {
     engineRun() {
       let engineResults = this.apiEngineMain(this.engineParams);
       this.setResults(engineResults);
+      this.setEngineRan(true);
     },
   },
   computed: {
     ...mapState(useFileStore, ["arrayFiles"]),
     ...mapState(usePoolStore, [
       "pools",
+      "selectedSubjects",
+      "selectedGroupsAsScheduleView",
+      "engineParams",
       "subjects",
       "groups",
-      "selectedSubjects",
-      "selectedGroups",
-      "engineParams",
     ]),
+    selectedGroups(){
+        return this.selectedGroupsAsScheduleView.grids;
+    }
   },
 };
 </script>
