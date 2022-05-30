@@ -1,5 +1,5 @@
 <template>
-  <div class="card m-1 bg-info bg-opacity-25 border border-info">
+  <div class="card m-1 bg-info bg-opacity-25 border">
     <div class="card-body p-2 colored-block" :class="style">
       <div class="conatainer">
         <div class="position-relative">
