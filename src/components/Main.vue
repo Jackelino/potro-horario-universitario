@@ -31,7 +31,7 @@ export default {
     Pagination,
   },
   computed:{
-    ...mapState(useEngineResults, ['engineResults', 'engineRan']),
+    ...mapState(useEngineResults, ['engineResults','engineRan']),
     ...mapState(useScheduleView, ['scheduleView']),
     ...mapState(usePoolStore, ['selectedGroupsAsScheduleView']),
     currentScheduleView(){
