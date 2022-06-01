@@ -5,7 +5,7 @@
         <li class="page-item disabled">
           <a class="page-link"><i class="fa-solid fa-angle-left"></i></a>
         </li>
-        <li class="page-item" v-for="(item, index) in results" :key="index"><a class="page-link" href="#">{{index + 1}}</a></li>
+        <li class="page-item" v-for="index in resultsArrayLen" :key="index"><a class="page-link" href="#">{{index}}</a></li>
         <li class="page-item">
           <a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a>
         </li>
@@ -23,7 +23,7 @@ export default {
     }
   },
   props:{
-    results: Array
+    resultsArrayLen:Number 
   },
 }
 </script>

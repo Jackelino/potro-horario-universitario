@@ -4,7 +4,7 @@
       <div class="container-fluid pt-3 rounded-3 bg-light shadow-lg">
         <TableSchedule :scheduleView="currentScheduleView"/>
         <div class="container">
-          <Pagination :results="engineResults || []"/>
+          <Pagination :resultsArrayLen="engineResults.length"/>
         </div>
       </div>
     </section>
