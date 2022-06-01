@@ -31,11 +31,11 @@ export default {
     Pagination,
   },
   computed:{
-    ...mapState( useEngineResults, ['engineResults']),
-    ...mapState( useScheduleView, ['scheduleView']),
-    ...mapState( usePoolStore, ['selectedGroupsAsScheduleView']),
+    ...mapState(useEngineResults, ['engineResults', 'engineRan']),
+    ...mapState(useScheduleView, ['scheduleView']),
+    ...mapState(usePoolStore, ['selectedGroupsAsScheduleView']),
     currentScheduleView(){
-        if(this.engineResults.engineRan){
+        if(this.engineRan){
             return this.scheduleView;
         }else{
             return this.selectedGroupsAsScheduleView;
