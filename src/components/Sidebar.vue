@@ -123,7 +123,7 @@
           </div>
         </div>
       </div>
-      <hr />
+      <hr  v-if="!engineRan">
       <div class="container" v-if="!engineRan">
         <div class="row">
           <button
@@ -159,6 +159,45 @@
           </div>
         </div>
       </div>
+      <div class="container" v-if="engineRan">
+        <div class="row">
+          <button
+            class="btn btn-light"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseSubjectFree"
+            aria-expanded="false"
+            aria-controls="collapseSubjectFree"
+            v-on:click="changeArrowFree"
+          >
+            <div class="hstack gap-3">
+              <div class="fw-bold">Grupos del horario actual</div>
+              <div class="ms-auto">
+                <i
+                  class="fa-solid fa-angle-down fs-6 fw-bold"
+                  v-if="flagArrowFree"
+                ></i>
+                <i class="fa-solid fa-angle-up fs-6 fw-bold" v-else></i>
+              </div>
+            </div>
+          </button>
+          <div class="subjects mt-2 mb-2 pe-0 ps-0">
+            <div class="collapse mt-2" id="collapseSubjectFree">
+              <CardSubject
+                v-for="(group, idx) in scheduleView.grids"
+                :subjectName="group.data.nombre"
+                :id="group.pool_id.id_list.join('/')"
+                :group="group.data.grupo"
+                :teacher="group.data.profesor"
+                :label="group.label"
+                :style="group.style"
+                :key="idx"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </aside>
 </template>
@@ -168,6 +207,7 @@ import { mapState, mapActions } from "pinia";
 import { useFileStore } from "../store/useFile";
 import { usePoolStore } from "../store/usePools";
 import { useEngineResults } from "../store/useEngineResults";
+import { useScheduleView } from "../store/useScheduleView";
 import CardSubject from "./CardSubject.vue";
 import CanvasLoadFile from "./CanvasLoadFile.vue";
 import init, { api_engine_main } from "uaemex-horarios";
@@ -254,6 +294,7 @@ export default {
   },
   computed: {
     ...mapState(useFileStore, ["arrayFiles"]),
+    ...mapState(useScheduleView, ["scheduleView"]),
     ...mapState(useEngineResults, ["engineRan"]),
     ...mapState(usePoolStore, [
       "pools",
