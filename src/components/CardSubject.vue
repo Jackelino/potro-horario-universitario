@@ -1,6 +1,6 @@
 <template>
   <div class="card m-1 bg-info bg-opacity-25 border border-info">
-    <div class="card-body p-2">
+    <div class="card-body p-2 colored-block" :class="style">
       <div class="conatainer">
         <div class="position-relative">
           <div class="position-absolute top-0 end-0">
@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col">
+        <div class="col" >
           <p class="p-0 m-0"><b>{{ subjectName }}</b></p>
           <p v-if="group" class="p-0 m-0"><span>Grupo: </span><b>{{ group }}</b></p>
           <p v-if="id" class="p-0 m-0"><span>Clave: </span><b>{{ id }}</b></p>
@@ -19,8 +19,8 @@
           </span><b>{{ teacher }}</b></p>
         </div>
         <div class="col d-flex text-center align-items-center justify-content-center">
-          <div class="stiker">
-            🐙
+          <div class="sticker">
+          {{label}}
           </div>
         </div>
       </div>
@@ -46,8 +46,14 @@ export default {
     teacher:{
       type: String,
       optional: true
+    },
+    label:{
+        type: String,
+        default: "🍆"
+    },
+    style:{
+        type:String,
     }
-
   },
   name: 'CardSubject'
 }
