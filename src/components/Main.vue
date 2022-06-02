@@ -5,7 +5,7 @@
         <TableSchedule :scheduleView="currentScheduleView"
                        v-for="schedule in 1"/>
         <div class="container">
-          <Pagination :results="engineResults || []"/>
+          <Pagination :resultsArrayLen="engineResults.length"/>
         </div>
       </div>
     </section>
@@ -31,22 +31,16 @@ export default {
     TableSchedule,
     Pagination,
   },
-  computed: {
-    ...mapState(useEngineResults, ['engineResults']),
-    ...mapState(useScheduleView, ['scheduleView', 'currentResultIdx']),
+
+  computed:{
+    ...mapState(useEngineResults, ['engineResults','engineRan']),
+    ...mapState(useScheduleView, ['scheduleView']),
     ...mapState(usePoolStore, ['selectedGroupsAsScheduleView']),
-    currentScheduleView() {
-      if (this.engineResults.length === 0) {
-        if (this.engineResults.engineRan) {
-          return {
-            nameSchedule: 'Horario ',
-            schedule: this.scheduleView
-          }
-        } else {
-          return {
-            nameSchedule: 'Horario defecto',
-            schedule: this.selectedGroupsAsScheduleView
-          }
+    currentScheduleView(){
+        if(this.engineRan){
+            return this.scheduleView;
+        }else{
+            return this.selectedGroupsAsScheduleView;
         }
       } else {
         // aqui retorna los resultados de a partir del indice del arreglo

@@ -2,12 +2,13 @@
   <aside class="sidebar bg-light">
     <div class="container">
       <div class="container">
-        <div class="row">
-          <CanvasLoadFile/>
+
+        <div class="row" v-if="!engineRan">
+          <CanvasLoadFile />
         </div>
-        <div class="row">
+        <div class="row" v-if="!engineRan">
           <label for="inputEmail3" class="col-form-label">Anclar grupos:</label>
-          <div class="style-chooser">
+          <div class="style-chooser" v-if="!engineRan">
             <v-select
                 @option:selected="groupSelectedCallback"
                 :options="groups"
@@ -25,7 +26,7 @@
             </v-select>
           </div>
         </div>
-        <div class="row">
+        <div class="row" v-if="!engineRan">
           <label for="inputEmail3" class="col-form-label"
           >Elegir materias libres:</label
           >
@@ -66,22 +67,28 @@
               </div>
             </div>
           </div>
-          <div class="col-form-label">
-            <div class="text-center">
-              <button
-                  type="button"
-                  class="btn btn-primary text-white"
-                  @click="engineRun"
-                  :disabled="!engineReady"
-              >
-                <i class="fa-solid fa-code-compare"></i> Generar combinaciones
-              </button>
-            </div>
+        </div>
+        <div class="col-form-label">
+          <div class="text-center">
+            <button
+              v-if="!engineRan"
+              type="button"
+              class="btn btn-primary text-white"
+              @click="engineRun"
+              :disabled="!engineReady"
+            >
+              <i class="fa-solid fa-code-compare"></i> Generar combinaciones
+            </button>
+            <button type="button" 
+            @click="changeParamsButtonClicked"
+            class="btn btn-secondary text-white"
+            v-else
+            >Cambiar parámetros</button>
           </div>
         </div>
       </div>
-      <hr/>
-      <div class="container">
+      <hr />
+      <div class="container" v-if="!engineRan">
         <div class="row">
           <button
               class="btn btn-light"
@@ -117,8 +124,8 @@
           </div>
         </div>
       </div>
-      <hr/>
-      <div class="container">
+      <hr  v-if="!engineRan">
+      <div class="container" v-if="!engineRan">
         <div class="row">
           <button
               class="btn btn-light"
@@ -153,15 +160,55 @@
           </div>
         </div>
       </div>
+      <div class="container" v-if="engineRan">
+        <div class="row">
+          <button
+            class="btn btn-light"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseGroupsResult"
+            aria-expanded="true"
+            aria-controls="collapseGroupsResult"
+            v-on:click="changeArrowResults"
+          >
+            <div class="hstack gap-3">
+              <div class="fw-bold">Grupos del horario actual</div>
+              <div class="ms-auto">
+                <i
+                  class="fa-solid fa-angle-down fs-6 fw-bold"
+                  v-if="flagArrowResults"
+                ></i>
+                <i class="fa-solid fa-angle-up fs-6 fw-bold" v-else></i>
+              </div>
+            </div>
+          </button>
+          <div class="subjects mt-2 mb-2 pe-0 ps-0">
+            <div class="collapse mt-2" id="collapseGroupsResult">
+              <CardSubject
+                v-for="(group, idx) in scheduleView.grids"
+                :subjectName="group.data.nombre"
+                :id="group.pool_id.id_list.join('/')"
+                :group="group.data.grupo"
+                :teacher="group.data.profesor"
+                :label="group.label"
+                :style="group.style"
+                :key="idx"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </aside>
 </template>
 
 <script>
-import {mapState, mapActions} from "pinia";
-import {useFileStore} from "../store/useFile";
-import {usePoolStore} from "../store/usePools";
-import {useEngineResults} from "../store/useEngineResults";
+import { mapState, mapActions } from "pinia";
+import { useFileStore } from "../store/useFile";
+import { usePoolStore } from "../store/usePools";
+import { useEngineResults } from "../store/useEngineResults";
+import { useScheduleView } from "../store/useScheduleView";
 import CardSubject from "./CardSubject.vue";
 import CanvasLoadFile from "./CanvasLoadFile.vue";
 import init, {api_engine_main} from "uaemex-horarios";
@@ -182,6 +229,7 @@ export default {
       seleccionado: null,
       flagArrowAnchor: true,
       flagArrowFree: true,
+      flagArrowResults: false,
       apiEngineMain: null,
       engineReady: false,
     };
@@ -232,6 +280,9 @@ export default {
     changeArrowFree() {
       this.flagArrowFree = this.flagArrowFree !== true;
     },
+    changeArrowResults(){
+      this.flagArrowResults = !this.flagArrowResults;
+    },
     // Función  para quitar acentos de una palabra y convertir a
     // minúsculas
     normalizeStr(str) {
@@ -245,9 +296,16 @@ export default {
       this.setResults(engineResults);
       this.setEngineRan(true);
     },
+    changeParamsButtonClicked(){
+        let engineResultsStore = useEngineResults();
+        // Resetar los resultados del engine
+        engineResultsStore.$reset();
+    }
   },
   computed: {
     ...mapState(useFileStore, ["arrayFiles"]),
+    ...mapState(useScheduleView, ["scheduleView"]),
+    ...mapState(useEngineResults, ["engineRan"]),
     ...mapState(usePoolStore, [
       "pools",
       "selectedSubjects",

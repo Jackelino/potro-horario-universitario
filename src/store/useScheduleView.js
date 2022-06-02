@@ -4,23 +4,20 @@ import {useEngineResults} from "./useEngineResults";
 import {usePoolStore} from "./usePools";
 
 export const useScheduleView = defineStore('schedule-view', {
-    state: () => ({currentResultIdx: 0}),
+    state: () => ({ currentResultIdx: 0 }),
     actions: {
-        // cambia la paginacion conforme al indice del arreglo
-        setCurrentResultIdx(index) {
-            this.currentResultIdx = index;
+        setCurrentResultIdx(idx) {
+            this.currentResultIdx = idx;
         },
-        // incrementa el indice
-        setCurrentResultIdxIncrement() {
-            let engineResult = useEngineResults();
-            if (this.currentResultIdx < engineResult.engineResults.length - 1) {
-                this.currentResultIdx++;
-            }
-        },
-        // decrementa el indice
-        setCurrentResultIdxDecrement() {
+        decCurrentResultIdx() {
             if (this.currentResultIdx > 0) {
                 this.currentResultIdx--;
+            }
+        },
+        incCurrentResultIdx() {
+            let engineResults = useEngineResults();
+            if (this.currentResultIdx < engineResults.results.length - 1) {
+                this.currentResultIdx++;
             }
         }
     },
