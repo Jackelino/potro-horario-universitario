@@ -6,7 +6,8 @@
       </div>
       <div class="text-end">
         <button class="btn btn-primary btn-sm text-white" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Administrar platilla...
+                data-bs-target="#offcanvasRight"
+                aria-controls="offcanvasRight">Administrar plantilla...
         </button>
       </div>
     </div>

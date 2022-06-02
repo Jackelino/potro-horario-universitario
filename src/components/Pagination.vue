@@ -7,7 +7,9 @@
         </li>
         <li class="page-item" v-for="index in resultsArrayLen"
         :key="index"><a class="page-link" href="#"
-        :class="{'number-highlight': index == currentResultIdx + 1}">{{index}}</a></li>
+        :class="{'number-highlight': index - 1 == currentResultIdx}"
+        @click="setCurrentResultIdx(index - 1)"
+        >{{index}}</a></li>
         
         <li class="page-item">
           <a @click="incCurrentResultIdx" class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a>
@@ -29,7 +31,7 @@ export default {
     ...mapState(useScheduleView, ["currentResultIdx"]),
   },
   methods:{
-    ...mapActions(useScheduleView, ["incCurrentResultIdx", "decCurrentResultIdx"]),
+    ...mapActions(useScheduleView, ["setCurrentResultIdx","incCurrentResultIdx", "decCurrentResultIdx"]),
   }
 }
 </script>

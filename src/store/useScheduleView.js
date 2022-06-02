@@ -6,6 +6,9 @@ import { usePoolStore } from "../store/usePools";
 export const useScheduleView = defineStore('schedule-view', {
     state: () => ({ currentResultIdx: 0 }),
     actions: {
+        setCurrentResultIdx(idx) {
+            this.currentResultIdx = idx;
+        },
         decCurrentResultIdx() {
             if (this.currentResultIdx > 0) {
                 this.currentResultIdx--;
