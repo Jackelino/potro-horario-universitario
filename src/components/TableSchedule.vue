@@ -1,8 +1,8 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid pb-2">
     <div class="row p-3">
       <div class="text-center">
-        <h6 class="m-0 fw-bold">Horario 1</h6>
+        <h6 class="m-0 fw-bold">{{ scheduleView.nameSchedule }}</h6>
       </div>
     </div>
     <div class="row pe-3 ps-3 pb-0 pt-0 schedule">
@@ -24,8 +24,10 @@
         </tr>
         </tbody>
       </table>
+      {{ scheduleView }}
+
     </div>
-    <div class="row p-1">
+    <div class="row p-1" v-show="validateExport">
       <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="row mb-3">
           <label for="inputEmail3" class="col-sm-2 col-form-label p-2">Exportar:</label>
@@ -48,14 +50,15 @@ import {instanceGridView, getBlocks} from "../lib/block";
 import xlsx from 'xlsx/dist/xlsx.full.min';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-import {ScheduleView } from "../lib/gridUtils.js";
+import {ScheduleView} from "../lib/gridUtils.js";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default {
   name: 'TableSchedule',
-  props:{
-    scheduleView: ScheduleView 
+  props: {
+    scheduleView: Object,
+    resultSchedule: Array
   },
   data() {
     return {
@@ -68,73 +71,175 @@ export default {
           "Pdf"
         ],
       },
-      data: [
-        ["Profesor", "Clave", "Materia"],
-        ["A2", "B2", "C2"],
-        ["A3", "B3", "C3"]
-      ]
+      data: null
     };
   },
-  computed:{
+  computed: {
     // La variable gridview almacena de manera matricial todos los Blocks
     // (uno para cada día x hora)
     gridView() {
-        let gridView = instanceGridView();
-        if(this.scheduleView){
-            let grids = this.scheduleView.grids;
-            for (const grid of grids) {
-                const DAYS = 7;
-                for (let j = 0; j < DAYS; j++) {
-                    if (grid.time_values[j]) {
-                        let start = grid.time_values[j][0];
-                        let end = grid.time_values[j][1];
-                        let blocks = getBlocks(start, end);
-                        let day = days[j];
-                        for (const block of blocks) {
-                            gridView[block][day].pushGrid(grid);
-                        }
-                    }
-                }
+      let gridView = instanceGridView();
+      if (this.scheduleView.schedule) {
+        let grids = this.scheduleView.schedule.grids;
+        for (const grid of grids) {
+          const DAYS = 7;
+          for (let j = 0; j < DAYS; j++) {
+            if (grid.time_values[j]) {
+              let start = grid.time_values[j][0];
+              let end = grid.time_values[j][1];
+              let blocks = getBlocks(start, end);
+              let day = days[j];
+              for (const block of blocks) {
+                gridView[block][day].pushGrid(grid);
+              }
             }
-            return gridView;
-    }
-
+          }
         }
-      
+        this.data = gridView
+        return gridView;
+      }
+    },
+    validateExport() {
+      return this.scheduleView.schedule.grids.length !== 0 ? true : false;
+    }
   },
   methods: {
     exportExcel() {
+      // se nesesita generar un arreglo de arreglos
+      // [ ['1', '2','3'] ]
+      let arraySchedule = []; // arreglo principal
+      let arrayRow = []; // arreglo para para generar una fila
+      arraySchedule.push(['Hora\\Día'].concat(this.days)) // encabezado de la tabla
+      let i = 0;
+      for (let hour in this.data) {
+        arrayRow = []; // se reinicia el arreglo para generar una nueva fila
+        arrayRow.push(this.hours[i]); // este elemento es el horario que se muestra en la columna uno "Hora\Día"
+        let days = this.data[hour]
+        for (let day in days) {
+          if (days[day].grids.length > 0) {
+            arrayRow.push(days[day].grids[0].data.nombre + '\n' + days[day].grids[0].data.profesor + '\n' + days[day].grids[0].data.grupo);
+          } else {
+            arrayRow.push('');
+          }
+        }
+        arraySchedule.push(arrayRow) // agregamos la nueva fila
+        i++;
+      }
+
       const XLSX = xlsx;
       let workbook = XLSX.utils.book_new();//creamos nuevo libro excel
-      let worksheet = XLSX.utils.aoa_to_sheet(this.data); // cramos la hoja y la informacion de la hoja
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Horario", true); // se construye el doc excel
-      XLSX.writeFile(workbook, 'prueba 1.xlsx');
+      let worksheet = XLSX.utils.aoa_to_sheet(arraySchedule); // cramos la hoja y la informacion de la hoja
+      XLSX.utils.book_append_sheet(workbook, worksheet, this.scheduleView.nameSchedule, true); // se construye el doc excel
+      XLSX.writeFile(workbook, this.scheduleView.nameSchedule + '.xlsx');
     },
     exportPdf() {
+      // se nesesita generar un arreglo de arreglos
+      // [ ['1', '2','3'] ]
+      let arraySchedule = []; // arreglo principal
+      let arrayRow = []; // arreglo para para generar una fila
+      let i = 0;
+      let arrayColor = [
+        '#F8D7DA',
+        '#CFE2FF',
+        '#D7F0DD',
+        '#FFF3CD',
+        '#DADCF8',
+        '#CDF5F1',
+        '#f5cdf4',
+        '#f5d9cd'
+      ]; /// arreglo de los estilos
+      arraySchedule.push(['Hora\\Día'].concat(this.days)) // encabezado de la tabla
+      for (let hour in this.data) {
+        arrayRow = []; // se reinicia el arreglo para generar una nueva fila
+        arrayRow.push({
+          text: this.hours[i],
+          fillColor: '#477551',
+          color: '#fff',
+          bold: true,
+          alignment: 'center',
+          justifyContent: 'center'
+        }); // este elemento es el horario que se muestra en la columna uno "Hora\Día"
+        let days = this.data[hour]
+        for (let day in days) {
+          if (days[day].grids.length > 0) {
+            let indexColor = days[day].grids[0].style; // obtenemos el estilo
+            indexColor = parseInt(indexColor.charAt(indexColor.length - 1), 10); // obtenemos el numero de estilo
+            arrayRow.push({
+              text: '',
+              fillColor: arrayColor[indexColor - 1],
+              alignment: 'left'
+            });
+          } else {
+            arrayRow.push({
+              text: '',
+              fillColor: '#ffffff'
+            });
+          }
+        }
+        arraySchedule.push(arrayRow) // agregamos la nueva fila
+        i++;
+      }
+      /////////////////////// simbologia
+      let grids = this.scheduleView.schedule.grids;
+      let arraySimbology = [];
+      let arraySubject = [];
+      arraySimbology.push(['Materia', 'Color'])
+      for (let grid = 0; grid < grids.length; grid++) {
+        arraySubject = []
+        let indexColo = grids[grid].style; // obtenemos el estilo
+        indexColo = parseInt(indexColo.charAt(indexColo.length - 1), 10)
+        arraySubject.push({
+          text: grids[grid].data.nombre + '\n' + grids[grid].data.profesor + '\n' + grids[grid].data.grupo,
+          alignment: 'left'
+        });
+        arraySubject.push(
+            {
+              text: '',
+              fillColor: arrayColor[indexColo - 1]
+            });
+        arraySimbology.push(arraySubject);
+      }
       let docDefinition = {
+        pageOrientation: 'landscape',
         content: [
-          {text: 'Horario 1', style: 'header'},
+          {text: this.scheduleView.nameSchedule, style: 'header1'},
           {
-            layout: 'lightHorizontalLines', // optional
+            //layout: 'lightHorizontalLines', // optional
+            style: 'table',
             table: {
               // headers are automatically repeated if the table spans over multiple pages
               // you can declare how many rows should be treated as headers
               headerRows: 1,
-              widths: ['*', 'auto', 100, '*'],
-
-              body: [
-                ['Hora/Día', 'Lunes', 'Martes', 'Miercoles'],
-                ['Value 1', 'Value 2', 'Value 3', 'Value 4'],
-                [{text: 'Bold value', bold: true}, 'Val 2', 'Val 3', 'Val 4']
-              ]
+              widths: ['*', '*', '*', '*', '*', '*', '*', '*'],
+              body: arraySchedule
+            }
+          },
+          {text: 'Simbologia', style: 'header2'},
+          {
+            widths: ['*', '*'],
+            table: {
+              body: arraySimbology
             }
           }
         ],
         styles: {
-          header: {
+          header1: {
             fontSize: 22,
             bold: true,
-            alignment: 'center'
+            alignment: 'center',
+            margin: [0, 0, 0, 10]
+          },
+          header2: {
+            fontSize: 22,
+            bold: true,
+            alignment: 'left',
+            margin: [0, 10, 0, 10]
+          },
+          table: {
+            alignment: 'center',
+            fillColor: '#477551',
+            color: '#e5e5e5',
+            bold: true,
           }
         }
       };
@@ -154,7 +259,7 @@ export default {
 </script>
 
 <style scoped>
-.center-label{
-    text-align:center;
+.center-label {
+  text-align: center;
 }
 </style>

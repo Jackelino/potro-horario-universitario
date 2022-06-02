@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia';
-import { ScheduleView } from "../lib/gridUtils";
-import { useEngineResults } from "../store/useEngineResults";
-import { usePoolStore } from "../store/usePools";
+import {defineStore} from 'pinia';
+import {ScheduleView} from "../lib/gridUtils";
+import {useEngineResults} from "./useEngineResults";
+import {usePoolStore} from "./usePools";
 
 export const useScheduleView = defineStore('schedule-view', {
     state: () => ({ currentResultIdx: 0 }),

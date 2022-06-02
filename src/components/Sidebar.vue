@@ -2,6 +2,7 @@
   <aside class="sidebar bg-light">
     <div class="container">
       <div class="container">
+
         <div class="row" v-if="!engineRan">
           <CanvasLoadFile />
         </div>
@@ -9,17 +10,17 @@
           <label for="inputEmail3" class="col-form-label">Anclar grupos:</label>
           <div class="style-chooser" v-if="!engineRan">
             <v-select
-              @option:selected="groupSelectedCallback"
-              :options="groups"
-              :get-option-label="(option) => option.data.nombre"
-              :filter-by="
+                @option:selected="groupSelectedCallback"
+                :options="groups"
+                :get-option-label="(option) => option.data.nombre"
+                :filter-by="
                 (option, label, search) =>
                   normalizeStr(label).includes(normalizeStr(search))"
             >
               <template #option="{ data, pool_id }">
                 <h6 style="margin: 0">{{ data.nombre }}</h6>
-                <em>{{ pool_id.id_list.join("/") }}</em> <br />
-                <em>{{ data.profesor }}</em> <br />
+                <em>{{ pool_id.id_list.join("/") }}</em> <br/>
+                <em>{{ data.profesor }}</em> <br/>
                 <em>{{ data.grupo }}</em>
               </template>
             </v-select>
@@ -27,15 +28,15 @@
         </div>
         <div class="row" v-if="!engineRan">
           <label for="inputEmail3" class="col-form-label"
-            >Elegir materias libres:</label
+          >Elegir materias libres:</label
           >
           <div class="">
             <v-select
-              v-model="seleccionado"
-              :options="subjects"
-              label="name"
-              @option:selected="subjectSelectedCallback"
-              :filter-by="
+                v-model="seleccionado"
+                :options="subjects"
+                label="name"
+                @option:selected="subjectSelectedCallback"
+                :filter-by="
                 (option, label, search) =>
                   normalizeStr(label).includes(normalizeStr(search))
               "
@@ -51,22 +52,21 @@
               <div class="text-center">No. de horarios</div>
               <div class="text-end">
                 <button
-                  @click="decEngineBound"
-                  class="btn btn-primary btn-sm text-white rounded-circle"
+                    @click="decEngineBound"
+                    class="btn btn-primary btn-sm text-white rounded-circle"
                 >
                   <i class="fa-solid fa-minus"></i>
                 </button>
                 {{ engineParams.bound }}
                 <button
-                  @click="incEngineBound"
-                  class="btn btn-primary btn-sm text-white rounded-circle"
+                    @click="incEngineBound"
+                    class="btn btn-primary btn-sm text-white rounded-circle"
                 >
                   <i class="fa-solid fa-plus"></i>
                 </button>
               </div>
             </div>
           </div>
-        
         </div>
         <div class="col-form-label">
           <div class="text-center">
@@ -91,13 +91,13 @@
       <div class="container" v-if="!engineRan">
         <div class="row">
           <button
-            class="btn btn-light"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseSubjectAnchor"
-            aria-expanded="true"
-            aria-controls="collapseSubjectAnchor"
-            v-on:click="changeArrowAnchor"
+              class="btn btn-light"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseSubjectAnchor"
+              aria-expanded="true"
+              aria-controls="collapseSubjectAnchor"
+              v-on:click="changeArrowAnchor"
           >
             <div class="hstack gap-3">
               <div class="fw-bold">Grupos anclados</div>
@@ -110,15 +110,15 @@
           <div class="subjects mt-2 mb-2 pe-0 ps-0">
             <div class="collapse show mt-2" id="collapseSubjectAnchor">
               <CardSubject
-                v-for="(group, idx) in selectedGroups"
-                @closed="removeSeedFromEngineParams(group)"
-                :subjectName="group.data.nombre"
-                :id="group.pool_id.id_list.join('/')"
-                :group="group.data.grupo"
-                :teacher="group.data.profesor"
-                :key="idx"
-                :label="group.label"
-                :style="group.style"
+                  v-for="(group, idx) in selectedGroups"
+                  @closed="removeSeedFromEngineParams(group)"
+                  :subjectName="group.data.nombre"
+                  :id="group.pool_id.id_list.join('/')"
+                  :group="group.data.grupo"
+                  :teacher="group.data.profesor"
+                  :key="idx"
+                  :label="group.label"
+                  :style="group.style"
               />
             </div>
           </div>
@@ -128,33 +128,33 @@
       <div class="container" v-if="!engineRan">
         <div class="row">
           <button
-            class="btn btn-light"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseSubjectFree"
-            aria-expanded="false"
-            aria-controls="collapseSubjectFree"
-            v-on:click="changeArrowFree"
+              class="btn btn-light"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseSubjectFree"
+              aria-expanded="true"
+              aria-controls="collapseSubjectFree"
+              v-on:click="changeArrowFree"
           >
             <div class="hstack gap-3">
               <div class="fw-bold">Materias libres</div>
               <div class="ms-auto">
                 <i
-                  class="fa-solid fa-angle-down fs-6 fw-bold"
-                  v-if="flagArrowFree"
+                    class="fa-solid fa-angle-up fs-6 fw-bold"
+                    v-if="flagArrowFree"
                 ></i>
-                <i class="fa-solid fa-angle-up fs-6 fw-bold" v-else></i>
+                <i class="fa-solid fa-angle-down fs-6 fw-bold" v-else></i>
               </div>
             </div>
           </button>
           <div class="subjects mt-2 mb-2 pe-0 ps-0">
-            <div class="collapse mt-2" id="collapseSubjectFree">
+            <div class="collapse mt-2 show" id="collapseSubjectFree">
               <CardSubject
-                v-for="(subject, idx) in selectedSubjects"
-                @closed="removePoolFromEngineParams(subject.subject_id)"
-                :subjectName="subject.name"
-                :id="subject.subject_id.id_list.join('/')"
-                :key="idx"
+                  v-for="(subject, idx) in selectedSubjects"
+                  @closed="removePoolFromEngineParams(subject.subject_id)"
+                  :subjectName="subject.name"
+                  :id="subject.subject_id.id_list.join('/')"
+                  :key="idx"
               />
             </div>
           </div>
@@ -211,7 +211,7 @@ import { useEngineResults } from "../store/useEngineResults";
 import { useScheduleView } from "../store/useScheduleView";
 import CardSubject from "./CardSubject.vue";
 import CanvasLoadFile from "./CanvasLoadFile.vue";
-import init, { api_engine_main } from "uaemex-horarios";
+import init, {api_engine_main} from "uaemex-horarios";
 // NOTA: NO me preguntes por qué es necesaria esta lína. Tiene que ver con un
 // problema con vite, que al empaquetar y transformar los imports de wasm,
 // no reconoce una url y regresa error. Básicamente se describe en este
@@ -287,9 +287,9 @@ export default {
     // minúsculas
     normalizeStr(str) {
       return str
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase();
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase();
     },
     engineRun() {
       let engineResults = this.apiEngineMain(this.engineParams);
@@ -314,8 +314,8 @@ export default {
       "subjects",
       "groups",
     ]),
-    selectedGroups(){
-        return this.selectedGroupsAsScheduleView.grids;
+    selectedGroups() {
+      return this.selectedGroupsAsScheduleView.grids;
     }
   },
 };

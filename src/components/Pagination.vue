@@ -1,7 +1,8 @@
 <template>
-  <div class="paginate">
+  <div class="paginate" v-show="validateResults">
     <nav aria-label="Page navigation example" class="p-1">
       <ul class="pagination justify-content-end">
+
         <li class="page-item">
           <a @click="decCurrentResultIdx" class="page-link" href="#"><i class="fa-solid fa-angle-left"></i></a>
         </li>
@@ -20,6 +21,7 @@
 </template>
 
 <script>
+
 import { mapActions, mapState} from "pinia";
 import { useScheduleView } from "../store/useScheduleView";
 export default {
