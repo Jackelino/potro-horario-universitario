@@ -80,6 +80,7 @@
               <i class="fa-solid fa-code-compare"></i> Generar combinaciones
             </button>
             <button type="button" 
+            @click="changeParamsButtonClicked"
             class="btn btn-secondary text-white"
             v-else
             >Cambiar parámetros</button>
@@ -165,24 +166,24 @@
             class="btn btn-light"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target="#collapseSubjectFree"
-            aria-expanded="false"
-            aria-controls="collapseSubjectFree"
-            v-on:click="changeArrowFree"
+            data-bs-target="#collapseGroupsResult"
+            aria-expanded="true"
+            aria-controls="collapseGroupsResult"
+            v-on:click="changeArrowResults"
           >
             <div class="hstack gap-3">
               <div class="fw-bold">Grupos del horario actual</div>
               <div class="ms-auto">
                 <i
                   class="fa-solid fa-angle-down fs-6 fw-bold"
-                  v-if="flagArrowFree"
+                  v-if="flagArrowResults"
                 ></i>
                 <i class="fa-solid fa-angle-up fs-6 fw-bold" v-else></i>
               </div>
             </div>
           </button>
           <div class="subjects mt-2 mb-2 pe-0 ps-0">
-            <div class="collapse mt-2" id="collapseSubjectFree">
+            <div class="collapse mt-2" id="collapseGroupsResult">
               <CardSubject
                 v-for="(group, idx) in scheduleView.grids"
                 :subjectName="group.data.nombre"
@@ -228,6 +229,7 @@ export default {
       seleccionado: null,
       flagArrowAnchor: true,
       flagArrowFree: true,
+      flagArrowResults: false,
       apiEngineMain: null,
       engineReady: false,
     };
@@ -278,6 +280,9 @@ export default {
     changeArrowFree() {
       this.flagArrowFree = this.flagArrowFree !== true;
     },
+    changeArrowResults(){
+      this.flagArrowResults = !this.flagArrowResults;
+    },
     // Función  para quitar acentos de una palabra y convertir a
     // minúsculas
     normalizeStr(str) {
@@ -291,6 +296,11 @@ export default {
       this.setResults(engineResults);
       this.setEngineRan(true);
     },
+    changeParamsButtonClicked(){
+        let engineResultsStore = useEngineResults();
+        // Resetar los resultados del engine
+        engineResultsStore.$reset();
+    }
   },
   computed: {
     ...mapState(useFileStore, ["arrayFiles"]),
