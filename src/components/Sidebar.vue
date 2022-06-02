@@ -2,12 +2,12 @@
   <aside class="sidebar bg-light">
     <div class="container">
       <div class="container">
-        <div class="row">
+        <div class="row" v-if="!engineRan">
           <CanvasLoadFile />
         </div>
-        <div class="row">
+        <div class="row" v-if="!engineRan">
           <label for="inputEmail3" class="col-form-label">Anclar grupos:</label>
-          <div class="style-chooser">
+          <div class="style-chooser" v-if="!engineRan">
             <v-select
               @option:selected="groupSelectedCallback"
               :options="groups"
@@ -25,7 +25,7 @@
             </v-select>
           </div>
         </div>
-        <div class="row">
+        <div class="row" v-if="!engineRan">
           <label for="inputEmail3" class="col-form-label"
             >Elegir materias libres:</label
           >
@@ -66,9 +66,12 @@
               </div>
             </div>
           </div>
-                  <div class="col-form-label">
+        
+        </div>
+        <div class="col-form-label">
           <div class="text-center">
             <button
+              v-if="!engineRan"
               type="button"
               class="btn btn-primary text-white"
               @click="engineRun"
@@ -76,12 +79,15 @@
             >
               <i class="fa-solid fa-code-compare"></i> Generar combinaciones
             </button>
+            <button type="button" 
+            class="btn btn-secondary text-white"
+            v-else
+            >Cambiar parámetros</button>
           </div>
-        </div>
         </div>
       </div>
       <hr />
-      <div class="container">
+      <div class="container" v-if="!engineRan">
         <div class="row">
           <button
             class="btn btn-light"
@@ -118,7 +124,7 @@
         </div>
       </div>
       <hr />
-      <div class="container">
+      <div class="container" v-if="!engineRan">
         <div class="row">
           <button
             class="btn btn-light"
@@ -248,6 +254,7 @@ export default {
   },
   computed: {
     ...mapState(useFileStore, ["arrayFiles"]),
+    ...mapState(useEngineResults, ["engineRan"]),
     ...mapState(usePoolStore, [
       "pools",
       "selectedSubjects",
