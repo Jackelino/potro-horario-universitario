@@ -2,8 +2,7 @@
   <main class="main">
     <section>
       <div class="container-fluid pt-3 rounded-3 bg-light shadow-lg">
-        <TableSchedule :scheduleView="currentScheduleView"
-                       v-for="schedule in 1"/>
+        <TableSchedule :scheduleView="currentScheduleView"/>
         <div class="container">
           <Pagination :resultsArrayLen="engineResults.length"/>
         </div>
@@ -22,34 +21,28 @@ import {usePoolStore} from "../store/usePools";
 
 export default {
   name: "Main",
-  data() {
-    return {
-      resultSelect: []
-    };
-  },
   components: {
     TableSchedule,
     Pagination,
   },
 
-  computed:{
-    ...mapState(useEngineResults, ['engineResults','engineRan']),
-    ...mapState(useScheduleView, ['scheduleView']),
+  computed: {
+    ...mapState(useEngineResults, ['engineResults', 'engineRan']),
+    ...mapState(useScheduleView, ['scheduleView', 'currentResultIdx']),
     ...mapState(usePoolStore, ['selectedGroupsAsScheduleView']),
-    currentScheduleView(){
-        if(this.engineRan){
-            return this.scheduleView;
-        }else{
-            return this.selectedGroupsAsScheduleView;
-        }
-      } else {
-        // aqui retorna los resultados de a partir del indice del arreglo
+    currentScheduleView() {
+      // retornamos un objeto para enviar el grid y el nummero de horario de los resultados
+      if (this.engineRan) {
         return {
           nameSchedule: 'Horario ' + (this.currentResultIdx + 1),
-          schedule: this.scheduleView = this.engineResults[this.currentResultIdx]
+          schedule: this.scheduleView
+        }
+      } else {
+        return {
+          nameSchedule: 'Horario Previo',
+          schedule: this.selectedGroupsAsScheduleView
         }
       }
-
     }
   }
 };

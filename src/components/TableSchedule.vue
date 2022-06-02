@@ -2,7 +2,7 @@
   <div class="container-fluid pb-2">
     <div class="row p-3">
       <div class="text-center">
-        <h6 class="m-0 fw-bold">{{ scheduleView.nameSchedule }}</h6>
+        <h5 class="m-0 fw-bold">{{ scheduleView.nameSchedule }}</h5>
       </div>
     </div>
     <div class="row pe-3 ps-3 pb-0 pt-0 schedule">
@@ -17,15 +17,13 @@
         <tr v-for="hour in hours" :key="hour">
           <th scope="row" class="bg-success text-white cell">{{ hour }}</th>
           <td v-for="(day, idx) in days" :class="gridView[hour][day].style"
-          :key="idx"
-          class="colored-block center-label">
-          {{gridView[hour][day].label}}
+              :key="idx"
+              class="colored-block center-label">
+            {{ gridView[hour][day].label }}
           </td>
         </tr>
         </tbody>
       </table>
-      {{ scheduleView }}
-
     </div>
     <div class="row p-1" v-show="validateExport">
       <div class="col-lg-6 col-md-6 col-sm-6">
@@ -165,9 +163,10 @@ export default {
             let indexColor = days[day].grids[0].style; // obtenemos el estilo
             indexColor = parseInt(indexColor.charAt(indexColor.length - 1), 10); // obtenemos el numero de estilo
             arrayRow.push({
-              text: '',
+              text: days[day].grids[0].data.grupo,
+              color: '#313131',
               fillColor: arrayColor[indexColor - 1],
-              alignment: 'left'
+              alignment: 'center'
             });
           } else {
             arrayRow.push({

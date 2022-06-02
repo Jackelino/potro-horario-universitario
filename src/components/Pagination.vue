@@ -3,16 +3,13 @@
     <nav aria-label="Page navigation example" class="p-1">
       <ul class="pagination justify-content-end">
 
-        <li class="page-item">
+        <li class="page-item" :class="disabledPaginationBack">
           <a @click="decCurrentResultIdx" class="page-link" href="#"><i class="fa-solid fa-angle-left"></i></a>
         </li>
-        <li class="page-item" v-for="index in resultsArrayLen"
-        :key="index"><a class="page-link" href="#"
-        :class="{'number-highlight': index - 1 == currentResultIdx}"
-        @click="setCurrentResultIdx(index - 1)"
-        >{{index}}</a></li>
-        
-        <li class="page-item">
+        <li class="page-item" v-for="index in resultsArrayLen" :key="index"
+            :class="{'active': index - 1 == currentResultIdx}">
+          <a class="page-link" href="#" @click="setCurrentResultIdx(index - 1)">{{ index }}</a></li>
+        <li class="page-item" :class="disabledPaginationNext">
           <a @click="incCurrentResultIdx" class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a>
         </li>
       </ul>
@@ -22,24 +19,37 @@
 
 <script>
 
-import { mapActions, mapState} from "pinia";
-import { useScheduleView } from "../store/useScheduleView";
+import {mapActions, mapState} from "pinia";
+import {useScheduleView} from "../store/useScheduleView";
+
 export default {
   name: "Pagination",
-  props:{
-    resultsArrayLen: Number 
+  props: {
+    resultsArrayLen: Number
   },
-  computed:{
+  computed: {
     ...mapState(useScheduleView, ["currentResultIdx"]),
+    // si no tiene resultados no se muestra la paginacion
+    validateResults() {
+      return this.resultsArrayLen === 0 ? false : true;
+    },
+    // habilita y desabilita las felchas de la paginacion con direccion atras
+    disabledPaginationBack() {
+      return this.currentResultIdx === 0 ? 'disabled' : '';
+    },
+    // habilita y desabilita las felchas de la paginacion con direccion adelante
+    disabledPaginationNext() {
+      return this.currentResultIdx === this.resultsArrayLen - 1 ? 'disabled' : '';
+    }
   },
-  methods:{
-    ...mapActions(useScheduleView, ["setCurrentResultIdx","incCurrentResultIdx", "decCurrentResultIdx"]),
+  methods: {
+    ...mapActions(useScheduleView, ["setCurrentResultIdx", "incCurrentResultIdx", "decCurrentResultIdx"]),
   }
 }
 </script>
 <style scoped>
-.number-highlight{
-    font-weight:900;
-    background-color:#D2D5D9;
+.number-highlight {
+  font-weight: 900;
+  background-color: #D2D5D9;
 }
 </style>
