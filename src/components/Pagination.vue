@@ -4,13 +4,13 @@
       <ul class="pagination justify-content-end">
 
         <li class="page-item" :class="disabledPaginationBack">
-          <a @click="decCurrentResultIdx" class="page-link" href="#"><i class="fa-solid fa-angle-left"></i></a>
+          <div @click="decCurrentResultIdx" class="page-link" ><i class="fa-solid fa-angle-left"></i></div>
         </li>
         <li class="page-item" v-for="index in resultsArrayLen" :key="index"
             :class="{'active': index - 1 == currentResultIdx}">
           <a class="page-link" href="#" @click="setCurrentResultIdx(index - 1)">{{ index }}</a></li>
         <li class="page-item" :class="disabledPaginationNext">
-          <a @click="incCurrentResultIdx" class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a>
+          <div @click="incCurrentResultIdx" class="page-link"><i class="fa-solid fa-angle-right"></i></div>
         </li>
       </ul>
     </nav>

@@ -43,7 +43,7 @@
 
   &.disabled .page-link {
     color: $pagination-disabled-color;
-    pointer-events: none;
+    cursor: not-allowed;
     background-color: $pagination-disabled-bg;
     border-color: $pagination-disabled-border-color;
   }

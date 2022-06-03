@@ -24,7 +24,9 @@ $border-radius: $vs-border-radius;
     border-radius: $border-radius;
     white-space: normal;
 }
-
+.is-invalid >.vs__dropdown-toggle{
+    border-color: #dc3545 !important;
+}
 .vs__selected-options {
     display: flex;
     flex-basis: 100%;

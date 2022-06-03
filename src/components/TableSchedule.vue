@@ -28,14 +28,17 @@
     <div class="row p-1" v-show="validateExport">
       <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="row mb-3">
-          <label for="inputEmail3" class="col-sm-2 col-form-label p-2">Exportar:</label>
-          <div class="col-sm-6 p-2 ">
-            <v-select class="" :options="options.export" v-model="option" placeholder="Elige un formato"></v-select>
-          </div>
-          <div class="col-sm-4 p-2">
-            <button type="submit" class="btn btn-primary text-white" @click.prevent="selectExport"><i
-                class="fa-solid fa-download"></i></button>
-          </div>
+            <label for="inputEmail3" class="col-sm-2 col-form-label p-2">Exportar:</label>
+            <div class="col-sm-6 p-2 ">
+              <v-select :class="validateOption" :options="options.export" v-model="option" placeholder="Elige un formato" required></v-select>
+              <div class="invalid-feedback">
+                Elige un formato.
+              </div>
+            </div>
+            <div class="col-sm-4 p-2">
+              <button type="submit" class="btn btn-primary text-white" @click.prevent="selectExport"><i
+                  class="fa-solid fa-download"></i></button>
+            </div>
         </div>
       </div>
     </div>
@@ -63,6 +66,7 @@ export default {
       days,
       hours,
       option: null,
+      flagOption: false,
       options: {
         export: [
           "Excel",
@@ -99,6 +103,12 @@ export default {
     },
     validateExport() {
       return this.scheduleView.schedule.grids.length !== 0 ? true : false;
+    },
+    validateOption(){
+      if(this.flagOption === true){
+        return this.option === null ? 'is-invalid': '';
+      }
+
     }
   },
   methods: {
@@ -246,10 +256,10 @@ export default {
       pdf.open();
     },
     selectExport() {
+      this.flagOption = true;
       if (this.option === 'Excel') {
         this.exportExcel();
-      }
-      if (this.option === 'Pdf') {
+      }else if (this.option === 'Pdf') {
         this.exportPdf();
       }
     }
@@ -261,4 +271,5 @@ export default {
 .center-label {
   text-align: center;
 }
+
 </style>

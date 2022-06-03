@@ -4,7 +4,7 @@
       <div class="container">
 
         <div class="row" v-if="!engineRan">
-          <CanvasLoadFile />
+          <CanvasLoadFile/>
         </div>
         <div class="row" v-if="!engineRan">
           <label for="inputEmail3" class="col-form-label">Anclar grupos:</label>
@@ -49,7 +49,7 @@
           </div>
           <div class="col-form-label">
             <div class="d-flex justify-content-between">
-              <div class="text-center">No. de horarios</div>
+              <div class="text-center">No. de grupos apararecer:</div>
               <div class="text-end">
                 <button
                     @click="decEngineBound"
@@ -71,23 +71,24 @@
         <div class="col-form-label">
           <div class="text-center">
             <button
-              v-if="!engineRan"
-              type="button"
-              class="btn btn-primary text-white"
-              @click="engineRun"
-              :disabled="!engineReady"
+                v-if="!engineRan"
+                type="button"
+                class="btn btn-primary text-white"
+                @click="engineRun"
+                :disabled="validateCombinations"
             >
               <i class="fa-solid fa-code-compare"></i> Generar combinaciones
             </button>
-            <button type="button" 
-            @click="changeParamsButtonClicked"
-            class="btn btn-secondary text-white"
-            v-else
-            >Cambiar parámetros</button>
+            <button type="button"
+                    @click="changeParamsButtonClicked"
+                    class="btn btn-secondary text-white"
+                    v-else
+            >Cambiar parámetros
+            </button>
           </div>
         </div>
       </div>
-      <hr />
+      <hr/>
       <div class="container" v-if="!engineRan">
         <div class="row">
           <button
@@ -124,7 +125,7 @@
           </div>
         </div>
       </div>
-      <hr  v-if="!engineRan">
+      <hr v-if="!engineRan">
       <div class="container" v-if="!engineRan">
         <div class="row">
           <button
@@ -163,52 +164,51 @@
       <div class="container" v-if="engineRan">
         <div class="row">
           <button
-            class="btn btn-light"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseGroupsResult"
-            aria-expanded="true"
-            aria-controls="collapseGroupsResult"
-            v-on:click="changeArrowResults"
+              class="btn btn-light"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseGroupsResult"
+              aria-expanded="true"
+              aria-controls="collapseGroupsResult"
+              v-on:click="changeArrowResults"
           >
             <div class="hstack gap-3">
               <div class="fw-bold">Grupos del horario actual</div>
               <div class="ms-auto">
                 <i
-                  class="fa-solid fa-angle-down fs-6 fw-bold"
-                  v-if="flagArrowResults"
+                    class="fa-solid fa-angle-down fs-6 fw-bold"
+                    v-if="flagArrowResults"
                 ></i>
                 <i class="fa-solid fa-angle-up fs-6 fw-bold" v-else></i>
               </div>
             </div>
           </button>
           <div class="subjects mt-2 mb-2 pe-0 ps-0">
-            <div class="collapse mt-2" id="collapseGroupsResult">
+            <div class="collapse mt-2 show" id="collapseGroupsResult">
               <CardSubject
-                v-for="(group, idx) in scheduleView.grids"
-                :subjectName="group.data.nombre"
-                :id="group.pool_id.id_list.join('/')"
-                :group="group.data.grupo"
-                :teacher="group.data.profesor"
-                :label="group.label"
-                :style="group.style"
-                :key="idx"
+                  v-for="(group, idx) in scheduleView.grids"
+                  :subjectName="group.data.nombre"
+                  :id="group.pool_id.id_list.join('/')"
+                  :group="group.data.grupo"
+                  :teacher="group.data.profesor"
+                  :label="group.label"
+                  :style="group.style"
+                  :key="idx"
               />
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </aside>
 </template>
 
 <script>
-import { mapState, mapActions } from "pinia";
-import { useFileStore } from "../store/useFile";
-import { usePoolStore } from "../store/usePools";
-import { useEngineResults } from "../store/useEngineResults";
-import { useScheduleView } from "../store/useScheduleView";
+import {mapState, mapActions} from "pinia";
+import {useFileStore} from "../store/useFile";
+import {usePoolStore} from "../store/usePools";
+import {useEngineResults} from "../store/useEngineResults";
+import {useScheduleView} from "../store/useScheduleView";
 import CardSubject from "./CardSubject.vue";
 import CanvasLoadFile from "./CanvasLoadFile.vue";
 import init, {api_engine_main} from "uaemex-horarios";
@@ -229,7 +229,7 @@ export default {
       seleccionado: null,
       flagArrowAnchor: true,
       flagArrowFree: true,
-      flagArrowResults: false,
+      flagArrowResults: true,
       apiEngineMain: null,
       engineReady: false,
     };
@@ -280,7 +280,7 @@ export default {
     changeArrowFree() {
       this.flagArrowFree = this.flagArrowFree !== true;
     },
-    changeArrowResults(){
+    changeArrowResults() {
       this.flagArrowResults = !this.flagArrowResults;
     },
     // Función  para quitar acentos de una palabra y convertir a
@@ -296,10 +296,10 @@ export default {
       this.setResults(engineResults);
       this.setEngineRan(true);
     },
-    changeParamsButtonClicked(){
-        let engineResultsStore = useEngineResults();
-        // Resetar los resultados del engine
-        engineResultsStore.$reset();
+    changeParamsButtonClicked() {
+      let engineResultsStore = useEngineResults();
+      // Resetar los resultados del engine
+      engineResultsStore.$reset();
     }
   },
   computed: {
@@ -316,6 +316,9 @@ export default {
     ]),
     selectedGroups() {
       return this.selectedGroupsAsScheduleView.grids;
+    },
+    validateCombinations() {
+      return (this.scheduleView.grids.length === 0 && this.selectedSubjects.length === 0);
     }
   },
 };
