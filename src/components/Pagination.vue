@@ -1,16 +1,16 @@
 <template>
   <div class="paginate" v-show="validateResults">
-    <nav aria-label="Page navigation example" class="p-1">
+    <nav aria-label="Page navigation example" class="pt-2">
       <ul class="pagination justify-content-end">
-
-        <li class="page-item" :class="disabledPaginationBack">
-          <div @click="decCurrentResultIdx" class="page-link" ><i class="fa-solid fa-angle-left"></i></div>
+        <li class="page-item me-2">
+          <div class="fw-bold align-middle p-2">Horario {{currentResultIdx +1}} de {{resultsArrayLen }}</div>
         </li>
-        <li class="page-item" v-for="index in resultsArrayLen" :key="index"
-            :class="{'active': index - 1 == currentResultIdx}">
-          <a class="page-link" href="#" @click="setCurrentResultIdx(index - 1)">{{ index }}</a></li>
+        <li class="page-item" :class="disabledPaginationBack">
+          <div @click="decCurrentResultIdx" class="page-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Horario anterior"><i class="fa-solid fa-angle-left"></i></div>
+        </li>
+
         <li class="page-item" :class="disabledPaginationNext">
-          <div @click="incCurrentResultIdx" class="page-link"><i class="fa-solid fa-angle-right"></i></div>
+          <div @click="incCurrentResultIdx" class="page-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Horario siguiente"><i class="fa-solid fa-angle-right"></i></div>
         </li>
       </ul>
     </nav>
@@ -26,6 +26,15 @@ export default {
   name: "Pagination",
   props: {
     resultsArrayLen: Number
+  },
+  data() {
+    return {
+      noAllPaginate: 3,
+      itemss: 1
+    }
+  },
+  mounted() {
+
   },
   computed: {
     ...mapState(useScheduleView, ["currentResultIdx"]),
@@ -43,7 +52,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useScheduleView, ["setCurrentResultIdx", "incCurrentResultIdx", "decCurrentResultIdx"]),
+    ...mapActions(useScheduleView, ["setCurrentResultIdx", "incCurrentResultIdx", "decCurrentResultIdx"])
   }
 }
 </script>

@@ -2,7 +2,7 @@
   <div class="container-fluid pb-2">
     <div class="row p-3">
       <div class="text-center">
-        <h5 class="m-0 fw-bold">{{ scheduleView.nameSchedule }}</h5>
+        <h3 class="m-0 fw-bold">{{ scheduleView.nameSchedule }}</h3>
       </div>
     </div>
     <div class="row pe-3 ps-3 pb-0 pt-0 schedule">
@@ -25,38 +25,46 @@
         </tbody>
       </table>
     </div>
-    <div class="row p-1" v-show="validateExport">
+    <div class="row p-3" v-show="validateExport">
       <div class="col-lg-6 col-md-6 col-sm-6">
-        <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-2 col-form-label p-2">Exportar:</label>
-            <div class="col-sm-6 p-2 ">
-              <v-select :class="validateOption" :options="options.export" v-model="option" placeholder="Elige un formato" required></v-select>
-              <div class="invalid-feedback">
-                Elige un formato.
-              </div>
+        <div class="row">
+          <label for="inputEmail3" class="col-sm-4 col-form-label p-0 pt-2">Exportar horario:</label>
+          <div class="col-sm-5 p-0 pt-2">
+            <v-select :class="validateOption" :options="options.export" v-model="option" placeholder="Elige un formato"
+                      required></v-select>
+            <div class="invalid-feedback">
+              Elige un formato.
             </div>
-            <div class="col-sm-4 p-2">
-              <button type="submit" class="btn btn-primary text-white" @click.prevent="selectExport"><i
-                  class="fa-solid fa-download"></i></button>
-            </div>
+          </div>
+          <div class="col-sm-3 p-2">
+            <button type="submit" class="btn btn-primary text-white" @click.prevent="selectExport"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Descargar"><i
+                class="fa-solid fa-download"></i></button>
+          </div>
         </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        <Pagination :resultsArrayLen="engineResults.length"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import {mapState} from "pinia";
+import {useEngineResults} from "../store/useEngineResults";
 import {days, hours} from "../lib/dateTimeConstants";
 import {instanceGridView, getBlocks} from "../lib/block";
 import xlsx from 'xlsx/dist/xlsx.full.min';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-import {ScheduleView} from "../lib/gridUtils.js";
+import Pagination from "./Pagination.vue";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default {
   name: 'TableSchedule',
+  components: {Pagination},
   props: {
     scheduleView: Object,
     resultSchedule: Array
@@ -77,6 +85,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(useEngineResults, ['engineResults']),
     // La variable gridview almacena de manera matricial todos los Blocks
     // (uno para cada día x hora)
     gridView() {
@@ -104,21 +113,20 @@ export default {
     validateExport() {
       return this.scheduleView.schedule.grids.length !== 0 ? true : false;
     },
-    validateOption(){
-      if(this.flagOption === true){
-        return this.option === null ? 'is-invalid': '';
+    validateOption() {
+      if (this.flagOption === true) {
+        return this.option === null ? 'is-invalid' : '';
       }
-
     }
   },
   methods: {
     exportExcel() {
-      // se nesesita generar un arreglo de arreglos
+      // se necesita generar un arreglo de arreglos
       // [ ['1', '2','3'] ]
       let arraySchedule = []; // arreglo principal
       let arrayRow = []; // arreglo para para generar una fila
-      arraySchedule.push(['Hora\\Día'].concat(this.days)) // encabezado de la tabla
       let i = 0;
+      arraySchedule.push(['Hora\\Día'].concat(this.days)) // encabezado de la tabla
       for (let hour in this.data) {
         arrayRow = []; // se reinicia el arreglo para generar una nueva fila
         arrayRow.push(this.hours[i]); // este elemento es el horario que se muestra en la columna uno "Hora\Día"
@@ -259,7 +267,7 @@ export default {
       this.flagOption = true;
       if (this.option === 'Excel') {
         this.exportExcel();
-      }else if (this.option === 'Pdf') {
+      } else if (this.option === 'Pdf') {
         this.exportPdf();
       }
     }

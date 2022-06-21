@@ -49,7 +49,7 @@
           </div>
           <div class="col-form-label">
             <div class="d-flex justify-content-between">
-              <div class="text-center">No. de grupos apararecer:</div>
+              <div class="text-center">Núm. de grupos a inscribir</div>
               <div class="text-end">
                 <button
                     @click="decEngineBound"
